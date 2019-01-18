@@ -78,6 +78,8 @@ public class CartServiceImpl implements CartService {
         }
         //9.将购物车数据写入redis
         hashOperations.put(cart.getSkuId().toString(),JsonUtils.serialize(cart));
+
+        String str = "{\"name\":"+num+",\"chiledren\":[";
     }
 
     /**
