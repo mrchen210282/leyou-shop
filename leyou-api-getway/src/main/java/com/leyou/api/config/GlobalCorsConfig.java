@@ -13,13 +13,15 @@ public class GlobalCorsConfig {
         //1.添加CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //1) 允许的域,不要写*，否则cookie就无法使用了
-        config.addAllowedOrigin("http://manage.leyou.com");
-        config.addAllowedOrigin("http://www.leyou.com");
         config.addAllowedOrigin("http://192.168.31.10:8081");
+        config.addAllowedOrigin("http://192.168.31.10:8080");
+        config.addAllowedOrigin("http://192.168.31.98:8080");
+        config.addAllowedOrigin("http://192.168.31.98:8081");
+        config.addAllowedOrigin("http://localhost");
         config.addAllowedOrigin("http://localhost:8081");
         config.addAllowedOrigin("http://localhost:9001");
-        config.addAllowedOrigin("http://127.0.0.1:8081");
         config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOrigin("http://127.0.0.1:8081");
         config.addAllowedOrigin("http://127.0.0.1:8080");
         config.addAllowedOrigin("http://192.168.31.129:8081");
         config.addAllowedOrigin("http://192.168.31.158:8081");
