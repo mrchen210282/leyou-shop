@@ -36,7 +36,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
             //首先拿到令牌
-            String token = CookieUtils.getCookieValue(request, jwtProperties.getCookieName());
+            String token = request.getHeader(jwtProperties.getCookieName());
+            if(StringUtils.isBlank(token)){
+                token = request.getParameter(jwtProperties.getCookieName());
+            }
             //判断令牌是否是空
             if (StringUtils.isBlank(token)) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -56,6 +59,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         t_user.remove();
+    }
+    public static UserInfo getLoginUser(){
+        return t_user.get();
     }
 
 }

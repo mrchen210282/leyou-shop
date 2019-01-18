@@ -4,7 +4,7 @@ spring:
   application:
     name: cart-service
   redis:
-    host: 192.168.56.101
+    host: 127.0.0.1
 eureka:
   client:
     service-url:
@@ -18,5 +18,5 @@ eureka:
     lease-expiration-duration-in-seconds: 10
 ly:
   jwt:
-    pubKeyPath: H:/rsa/rsa.pub # 公钥地址
-    cookieName: LY_TOKEN # cookie的名称
+    pubKeyPath: D:\\id_rsa.pub # 公钥地址
+    cookieName: token # cookie的名称

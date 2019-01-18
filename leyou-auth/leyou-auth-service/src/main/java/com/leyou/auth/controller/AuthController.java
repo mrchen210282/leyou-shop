@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Qin PengCheng
@@ -32,26 +35,26 @@ public class AuthController {
 
     /**
      * 登陆获取令牌的方法
-     * @param username
-     * @param password
      * @param request
      * @param response
      * @return
      */
     @PostMapping("accredit")
-    public ResponseEntity<Void> authorization(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
+    public ResponseEntity<Map<String,Object>> authorization(@RequestBody Map<String,Object> map,
             HttpServletRequest request,
             HttpServletResponse response
             ){
+        String username = map.get("username").toString();
+        String password = map.get("password").toString();
         String token = this.authService.getToken(username,password);
         if (StringUtils.isBlank(token)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         //将令牌放到cookie中,httponly设置为true，防止js修改
-        CookieUtils.setCookie(request,response,jwtProperties.getCookieName(),token,jwtProperties.getCookieMaxAge(),null,true);
-        return ResponseEntity.status(HttpStatus.OK).build();
+       // CookieUtils.setCookie(request,response,jwtProperties.getCookieName(),token,jwtProperties.getCookieMaxAge(),null,true);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ModelMap("token",token));
+
     }
 
     /**
@@ -62,8 +65,8 @@ public class AuthController {
      * @return
      */
     @GetMapping("verify")
-    public ResponseEntity<UserInfo> getUserInfo(
-            @CookieValue("LY_TOKEN") String token,
+    public ResponseEntity<Map<String,Object>> getUserInfo(
+            @RequestParam("token") String token,
             HttpServletRequest request,
             HttpServletResponse response
     ){
@@ -72,9 +75,12 @@ public class AuthController {
             //只要用户有这个请求，就给用户一个新的token，防止过期
             String newToken = JwtUtils.generateToken(userInfo, jwtProperties.getPrivateKey(), jwtProperties.getExpire());
             //这里的true谁不允许js操作的意思
-            CookieUtils.setCookie(request,response,jwtProperties.getCookieName(),
-                    newToken,jwtProperties.getCookieMaxAge(),null,true);
-            return ResponseEntity.status(HttpStatus.OK).body(userInfo);
+            //CookieUtils.setCookie(request,response,jwtProperties.getCookieName(),
+                   // newToken,jwtProperties.getCookieMaxAge(),null,true);
+            Map<String,Object> map = new HashMap<>();
+            map.put("token",newToken);
+            map.put("userInfo",userInfo);
+            return ResponseEntity.status(HttpStatus.OK).body(map);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

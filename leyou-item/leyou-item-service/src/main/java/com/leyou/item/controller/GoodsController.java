@@ -97,14 +97,12 @@ public class GoodsController {
      return ResponseEntity.status(HttpStatus.OK).body(skus);
     }
 
-    @GetMapping("sku/{id}")
-    public ResponseEntity<Sku> querySkuBySkuId(
-            @PathVariable("id")Long id
-    ){
+    @GetMapping("/sku/{id}")
+    public ResponseEntity<Sku> querySkuById(@PathVariable("id") Long id){
         Sku sku = this.goodsService.querySkuBySkuId(id);
-        if (sku==null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        if (sku == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(sku);
+        return ResponseEntity.ok(sku);
     }
 }

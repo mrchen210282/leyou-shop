@@ -7,6 +7,7 @@ import com.leyou.utils.CookieUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,11 @@ public class LoginFilter extends ZuulFilter {
         //获取上下文
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        String token = CookieUtils.getCookieValue(request,jwtProperties.getCookieName());
-
+        logger.info(request.getRequestURI());
+        String token = request.getHeader(jwtProperties.getCookieName());
+        if(StringUtils.isBlank(token)){
+            token = request.getParameter(jwtProperties.getCookieName());
+        }
         try {
             JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());
         } catch (Exception e) {

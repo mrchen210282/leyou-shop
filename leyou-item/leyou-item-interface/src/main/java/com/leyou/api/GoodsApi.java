@@ -42,7 +42,7 @@ public interface GoodsApi {
      * @param id
      * @return
      */
-    @GetMapping("sku/{id}")
+    @GetMapping("/sku/{id}")
     public ResponseEntity<Sku> querySkuBySkuId(
             @PathVariable("id")Long id
     );
