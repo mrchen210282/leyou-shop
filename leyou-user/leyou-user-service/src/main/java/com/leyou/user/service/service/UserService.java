@@ -90,10 +90,10 @@ public class UserService {
             return false;
         }
         //判断验证码是否正确
-        String redisCode = this.redisTemplate.opsForValue().get(KEY_PREFIX + phone);
-        if (redisCode==null&&code==null&&!redisCode.equals(code)){
-            return false;
-        }
+//        String redisCode = this.redisTemplate.opsForValue().get(KEY_PREFIX + phone);
+//        if (redisCode==null&&code==null&&!redisCode.equals(code)){
+//            return false;
+//        }
         //对密码进行加密
         String salt = Md5Utils.generate();
         String md5Password = Md5Utils.encryptPassword(password, salt);

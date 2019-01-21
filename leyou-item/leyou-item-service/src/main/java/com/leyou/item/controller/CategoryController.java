@@ -1,5 +1,9 @@
 package com.leyou.item.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.leyou.cart.pojo.Category;
 import com.leyou.item.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,5 +149,31 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(categories);
+    }
+
+    /**
+     * App首页分类列表
+     * 23级分类
+     */
+    @GetMapping("lastList")
+    public ResponseEntity<JSONArray> lastList(@RequestParam(value = "pid", defaultValue = "1") Long pid) {
+        //获取二级分类
+        List<Category> secList = categoryService.queryCategoryByPid(pid);
+        String str = "[";
+        for (Category list2 : secList){
+            str = str + "{\"name\":\""+list2.getName()+"\",\"chiledren\":[";
+            //获取三级分类
+            List<Category> thrList = categoryService.queryCategoryByPid(list2.getId());
+            for (Category list3 : thrList){
+                str = str + "{\"id\":"+list3.getId()+",\"name\":\""+list3.getName()+"\",\"src\":\"http://qiniu.verydog.cn//show.liluo.cc/img_0505.png\"},";
+            }
+            str = str.substring(0, str.length() -1);
+            str = str + "]},";
+        }
+        str = str.substring(0, str.length() -1);
+        str = str + "]";
+        System.out.println(str);
+        JSONArray jsonArray = JSON.parseArray(str);
+        return ResponseEntity.status(HttpStatus.OK).body(jsonArray);
     }
 }
