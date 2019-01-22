@@ -29,7 +29,7 @@ public class AddressController {
     @PostMapping("queryAddress")
     public ResponseEntity<List<Address>> queryAddress() {
         //1.获取用户
-        UserInfo userInfo = LoginInterceptor.getLoginUser();
+        UserInfo userInfo = LoginInterceptor.getUserInfo();
         //Long uid = userInfo.getId();
         Long uid = 29l;
         List<Address> address = addressService.queryAddresss(uid);
@@ -48,7 +48,7 @@ public class AddressController {
                                                  @RequestParam(value = "defaultAddress") String defaultAddress) {
 
         //1.获取用户
-        UserInfo userInfo = LoginInterceptor.getLoginUser();
+        UserInfo userInfo = LoginInterceptor.getUserInfo();
         Long uid = userInfo.getId();
 
         //校验数据
