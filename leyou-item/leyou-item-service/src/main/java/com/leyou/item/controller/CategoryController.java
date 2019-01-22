@@ -161,7 +161,7 @@ public class CategoryController {
         List<Category> secList = categoryService.queryCategoryByPid(pid);
         String str = "[";
         for (Category list2 : secList){
-            str = str + "{\"name\":\""+list2.getName()+"\",\"chiledren\":[";
+            str = str + "{\"name\":\""+list2.getName()+"\",\"children\":[";
             //获取三级分类
             List<Category> thrList = categoryService.queryCategoryByPid(list2.getId());
             for (Category list3 : thrList){

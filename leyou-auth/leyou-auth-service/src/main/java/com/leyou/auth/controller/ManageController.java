@@ -4,9 +4,7 @@ import com.leyou.auth.config.JwtProperties;
 import com.leyou.auth.entiy.UserInfo;
 import com.leyou.auth.service.AuthService;
 import com.leyou.auth.utils.JwtUtils;
-import com.leyou.utils.CookieUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
@@ -25,7 +23,7 @@ import java.util.Map;
  */
 @RestController
 @EnableConfigurationProperties(JwtProperties.class)
-public class AuthController {
+public class ManageController {
 
     @Autowired
     private AuthService authService;
