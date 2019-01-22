@@ -1,6 +1,7 @@
 package com.leyou.user.service.controller;
 
 import com.leyou.user.pojo.User;
+import com.leyou.user.service.service.AddressService;
 import com.leyou.user.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
 
     /**
      * 校验输入的信息
@@ -86,4 +90,6 @@ public class UserController {
       }
       return ResponseEntity.status(HttpStatus.OK).body(user);
     }
+
+
 }
