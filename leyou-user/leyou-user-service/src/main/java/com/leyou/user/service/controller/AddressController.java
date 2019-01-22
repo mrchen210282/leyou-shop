@@ -1,8 +1,8 @@
 package com.leyou.user.service.controller;
 
 import com.leyou.auth.entiy.UserInfo;
-import com.leyou.interceptor.LoginInterceptor;
 import com.leyou.user.pojo.Address;
+import com.leyou.user.service.interceptor.LoginInterceptor;
 import com.leyou.user.service.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
