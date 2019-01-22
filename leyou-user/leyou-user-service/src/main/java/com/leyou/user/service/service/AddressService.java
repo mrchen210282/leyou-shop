@@ -21,6 +21,19 @@ public class AddressService {
     private AddressMapper addressMapper;
 
     /**
+     *
+     * @param id
+     * @return
+     */
+    public Address queryAddressById(Long id) {
+        if(null == id) {
+            return null;
+        }
+        Address address = addressMapper.selectByPrimaryKey(id);
+        return address;
+    }
+
+    /**
      * 根据uid查询收货地址
      * @param uid
      * @return
@@ -43,12 +56,13 @@ public class AddressService {
      */
     public int createAddress(Address address) {
         int isSuc = 0;
-        List addressList = addressMapper.select(address);
 
-        if (null == addressList || addressList.size() <= 0) {
-            address.setDefaultAddress("Y");
+        if(StringUtils.isNotBlank(address.getIsDefault())) {
+            address.setIsDefault("true");
+            //新添加的收货地址设置为默认地址
+            addressMapper.updateDefaultAddress(address.getUserId());
         } else {
-            address.setDefaultAddress("N");
+            address.setIsDefault("false");
         }
         isSuc = addressMapper.insertSelective(address);
         return isSuc;
@@ -62,12 +76,11 @@ public class AddressService {
         int isSuc = 0;
         Address addres = addressMapper.selectByPrimaryKey(id);
         if(null != addres) {
-            addres.setDefaultAddress("Y");
+            addres.setIsDefault("true");
         }
-        isSuc = addressMapper.updateByPrimaryKeySelective(addres);
-
         //其它收货地址设置为N
-        addressMapper.updateAddress(id);
+        addressMapper.updateDefaultAddress(addres.getUserId());
+        isSuc = addressMapper.updateByPrimaryKeySelective(addres);
         return isSuc;
     }
 
@@ -113,9 +126,9 @@ public class AddressService {
         if(null != list && list.size() > 0) {
             Address position = list.get(0);
             if(StringUtils.isNotBlank(defaultAddress)) {
-                position.setDefaultAddress("Y");
+                position.setIsDefault("true");
             } else {
-                position.setDefaultAddress("N");
+                position.setIsDefault("false");
             }
             addressMapper.updateByPrimaryKeySelective(position);
         }

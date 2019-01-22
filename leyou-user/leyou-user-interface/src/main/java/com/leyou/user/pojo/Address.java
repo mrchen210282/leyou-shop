@@ -26,10 +26,10 @@ public class Address {
     private String name;
 
     //收货人电话
-    private String phone;
+    private String tel;
 
     //邮编
-    private String zipCode;
+    private String areaCode;
 
     //省份
     private String state;
@@ -41,13 +41,10 @@ public class Address {
     private String district;
 
     //详细地址
-    private String address;
+    private String addressDetail;
 
     //Y：默认地址  N：非默认地址
-    private String defaultAddress;
-
-    //地址标签
-    private String label;
+    private String isDefault;
 
     public Long getId() {
         return id;
@@ -73,20 +70,20 @@ public class Address {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTel() {
+        return tel;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getAreaCode() {
+        return areaCode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
     }
 
     public String getState() {
@@ -113,27 +110,19 @@ public class Address {
         this.district = district;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressDetail() {
+        return addressDetail;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail;
     }
 
-    public String getDefaultAddress() {
-        return defaultAddress;
+    public String getIsDefault() {
+        return isDefault;
     }
 
-    public void setDefaultAddress(String defaultAddress) {
-        this.defaultAddress = defaultAddress;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault;
     }
 }

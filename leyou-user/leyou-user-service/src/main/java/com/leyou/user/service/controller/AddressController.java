@@ -7,10 +7,7 @@ import com.leyou.user.service.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +18,16 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+    /**
+     *
+     * @return
+     */
+    @GetMapping("queryAddressById/{id}")
+    public ResponseEntity<Address> queryAddressById(@PathVariable("id") Long id) {
+
+        Address address = addressService.queryAddressById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(address);
+    }
 
     /**
      * 查询收货地址
@@ -30,8 +37,7 @@ public class AddressController {
     public ResponseEntity<List<Address>> queryAddress() {
         //1.获取用户
         UserInfo userInfo = LoginInterceptor.getUserInfo();
-        //Long uid = userInfo.getId();
-        Long uid = 29l;
+        Long uid = userInfo.getId();
         List<Address> address = addressService.queryAddresss(uid);
         return ResponseEntity.status(HttpStatus.OK).body(address);
     }
@@ -44,8 +50,8 @@ public class AddressController {
     public ResponseEntity<Address> createAddress(@RequestParam(value = "state") String state,
                                                  @RequestParam(value = "city") String city,
                                                  @RequestParam(value = "district") String district,
-                                                 @RequestParam(value = "address") String address,
-                                                 @RequestParam(value = "defaultAddress") String defaultAddress) {
+                                                 @RequestParam(value = "address") String addressDetail,
+                                                 @RequestParam(value = "defaultAddress") String isDefault) {
 
         //1.获取用户
         UserInfo userInfo = LoginInterceptor.getUserInfo();
@@ -84,15 +90,11 @@ public class AddressController {
         if(null == addressObj) {
             return null;
         } else {
-            addressObj.setAddress(address);
+            addressObj.setAddressDetail(addressDetail);
         }
 
         //是否为默认地址
-        if(null == defaultAddress) {
-            return null;
-        } else {
-            addressObj.setDefaultAddress("Y");
-        }
+        addressObj.setIsDefault("true");
 
         addressService.createAddress(addressObj);
 
@@ -118,44 +120,24 @@ public class AddressController {
                                                  @RequestParam(value = "state") String state,
                                                  @RequestParam(value = "city") String city,
                                                  @RequestParam(value = "district") String district,
-                                                 @RequestParam(value = "address") String address,
-                                                 @RequestParam(value = "defaultAddress") String defaultAddress) {
+                                                 @RequestParam(value = "address") String addressDetail,
+                                                 @RequestParam(value = "defaultAddress") String isDefault) {
         Address addressObj = new Address();
         //省份
-        if(null == state) {
-            return null;
-        } else {
-            addressObj.setState(state);
-        }
+        addressObj.setState(state);
 
         //市
-        if(null == city) {
-            return null;
-        } else {
-            addressObj.setCity(city);
-        }
+        addressObj.setCity(city);
 
         //区/县
-        if(null == district) {
-            return null;
-        } else {
-            addressObj.setDistrict(district);
-        }
+        addressObj.setDistrict(district);
 
         //详细地址
-        if(null == addressObj) {
-            return null;
-        } else {
-            addressObj.setAddress(address);
-        }
+        addressObj.setAddressDetail(addressDetail);
 
         //是否为默认地址
-        if(null == defaultAddress) {
-            return null;
-        } else {
-            addressObj.setDefaultAddress("Y");
-        }
-        addressService.updateAddress(addressObj,defaultAddress);
+        addressObj.setIsDefault(isDefault);
+        addressService.updateAddress(addressObj,isDefault);
 
         return ResponseEntity.status(HttpStatus.OK).body(addressObj);
     }
