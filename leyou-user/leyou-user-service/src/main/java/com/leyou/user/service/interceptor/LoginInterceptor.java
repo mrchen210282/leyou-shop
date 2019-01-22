@@ -1,8 +1,8 @@
-package com.leyou.cart.interceptor;
+package com.leyou.user.service.interceptor;
 
 import com.leyou.auth.entiy.UserInfo;
 import com.leyou.auth.utils.JwtUtils;
-import com.leyou.cart.config.JwtProperties;
+import com.leyou.user.service.config.JwtProperties;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -41,8 +41,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             }
             //判断令牌是否是空
             if (StringUtils.isBlank(token)) {
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                return false;
+                //response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return true;
             }
             //令牌不为空，解析得到用户的信息
             UserInfo userInfo = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());
@@ -58,10 +58,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         t_user.remove();
-    }
-
-    public static UserInfo getLoginUser() {
-        return t_user.get();
     }
 
 }

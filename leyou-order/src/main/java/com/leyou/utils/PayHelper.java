@@ -1,6 +1,7 @@
 package com.leyou.utils;
 
 import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayConstants;
 import com.leyou.config.PayConfig;
 import com.leyou.order.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
@@ -33,9 +34,9 @@ public class PayHelper {
 
     public PayHelper(PayConfig payConfig) {
         // 真实开发时
-        wxPay = new WXPay(payConfig);
+       // wxPay = new WXPay(payConfig);
         // 测试时
-        // wxPay = new WXPay(payConfig, WXPayConstants.SignType.MD5, true);
+         wxPay = new WXPay(payConfig, WXPayConstants.SignType.MD5, true);
     }
 
     public String createPayUrl(Long orderId) {

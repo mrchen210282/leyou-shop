@@ -66,7 +66,7 @@ public class AuthController {
      */
     @GetMapping("verify")
     public ResponseEntity<Map<String,Object>> getUserInfo(
-            @RequestParam("token") String token,
+            @RequestParam("ly-token") String token,
             HttpServletRequest request,
             HttpServletResponse response
     ){
