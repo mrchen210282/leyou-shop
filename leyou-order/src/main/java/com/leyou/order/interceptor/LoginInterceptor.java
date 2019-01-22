@@ -24,26 +24,26 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 查询token
-        String token = CookieUtils.getCookieValue(request, "LY_TOKEN");
-        if (StringUtils.isBlank(token)) {
-            // 未登录,返回401
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
-        }
-        // 有token，查询用户信息
         try {
-            // 解析成功，证明已经登录
-            UserInfo user = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());
-            // 放入线程域
-            tl.set(user);
+            //首先拿到令牌
+            String token = request.getHeader(jwtProperties.getCookieName());
+            if (StringUtils.isBlank(token)) {
+                token = request.getParameter(jwtProperties.getCookieName());
+            }
+            //判断令牌是否是空
+            if (StringUtils.isBlank(token)) {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return false;
+            }
+            //令牌不为空，解析得到用户的信息
+            UserInfo userInfo = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());
+            tl.set(userInfo);
             return true;
         } catch (Exception e) {
-            // 抛出异常，证明未登录或超时,返回401
+            //抛出异常，证明未登陆，401
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }
-
     }
 
     @Override

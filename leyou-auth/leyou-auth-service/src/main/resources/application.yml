@@ -19,6 +19,6 @@ ly:
     secret: ly@Login(Auth}*^31)&heiMa% # 登录校验的密钥
     pubKeyPath: D:\\id_rsa.pub # 公钥地址
     priKeyPath: D:\\id_rsa # 私钥地址
-    expire: 30 # 过期时间,单位分钟
+    expire: 3000 # 过期时间,单位分钟
     cookieMaxAge: 1800
     cookieName: token

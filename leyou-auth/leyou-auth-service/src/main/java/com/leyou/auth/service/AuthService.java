@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.sound.midi.Soundbank;
+
 /**
  * @author Qin PengCheng
  * @date 2018/6/13
@@ -49,6 +51,7 @@ public class AuthService {
             String token = JwtUtils.generateToken(userInfo, jwtProperties.getPrivateKey(), jwtProperties.getExpire());
             return token;
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("生成令牌的过程中出错");
             return null;
         }

@@ -51,6 +51,11 @@
             <artifactId>leyou-user-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.leyou.service</groupId>
+            <artifactId>leyou-auth-commom</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

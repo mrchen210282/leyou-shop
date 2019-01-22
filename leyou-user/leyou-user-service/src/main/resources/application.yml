@@ -35,3 +35,8 @@ eureka:
 
 mybatis:
   type-aliases-package: com.leyou.user.service.pojo
+
+ly:
+  jwt:
+    pubKeyPath: D:\\id_rsa.pub # 公钥地址
+    cookieName: token # cookie的名称

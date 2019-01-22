@@ -13,8 +13,8 @@ public class GlobalCorsConfig {
         //1.添加CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //1) 允许的域,不要写*，否则cookie就无法使用了
-        config.addAllowedOrigin("http://192.168.31.10:8081");
-        config.addAllowedOrigin("http://192.168.31.10:8080");
+        config.addAllowedOrigin("*");
+        /*config.addAllowedOrigin("http://192.168.31.10:8080");
         config.addAllowedOrigin("http://192.168.31.98:8080");
         config.addAllowedOrigin("http://192.168.31.98:8081");
         config.addAllowedOrigin("http://localhost");
@@ -28,6 +28,8 @@ public class GlobalCorsConfig {
         config.addAllowedOrigin("http://192.168.31.158:9001");
         config.addAllowedOrigin("http://192.168.31.98:8080");
         config.addAllowedOrigin("http://192.168.31.98:8081");
+        config.addAllowedOrigin("http://192.168.31.168:8080");
+        config.addAllowedOrigin("http://192.168.31.168:8081");*/
         //2) 是否发送Cookie信息
         config.setAllowCredentials(true);
         //3) 允许的请求方式

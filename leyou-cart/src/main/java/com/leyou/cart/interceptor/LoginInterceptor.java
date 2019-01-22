@@ -3,7 +3,6 @@ package com.leyou.cart.interceptor;
 import com.leyou.auth.entiy.UserInfo;
 import com.leyou.auth.utils.JwtUtils;
 import com.leyou.cart.config.JwtProperties;
-import com.leyou.utils.CookieUtils;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         try {
             //首先拿到令牌
             String token = request.getHeader(jwtProperties.getCookieName());
-            if(StringUtils.isBlank(token)){
+            if (StringUtils.isBlank(token)) {
                 token = request.getParameter(jwtProperties.getCookieName());
             }
             //判断令牌是否是空
@@ -60,7 +59,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         t_user.remove();
     }
-    public static UserInfo getLoginUser(){
+
+    public static UserInfo getLoginUser() {
         return t_user.get();
     }
 

@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.modelmbean.ModelMBean;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 98050
@@ -40,7 +43,7 @@ public class CartController {
     public ResponseEntity<List<Cart>> queryCartList(){
         List<Cart> carts = this.cartService.queryCartList();
         if(carts == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok(null);
         }
         return ResponseEntity.ok(carts);
     }
@@ -50,7 +53,10 @@ public class CartController {
      * @return
      */
     @PutMapping("updateCart")
-    public ResponseEntity<Void> updateNum(@RequestParam("skuId") Long skuId, @RequestParam("num") Integer num){
+    public ResponseEntity<Map> updateNum(@RequestParam("skuId") Long skuId, @RequestParam("num") Integer num){
+        if(num<0){
+            return ResponseEntity.ok(new ModelMap("code","不能为负数"));
+        }
         this.cartService.updateNum(skuId,num);
         return ResponseEntity.ok().build();
     }
