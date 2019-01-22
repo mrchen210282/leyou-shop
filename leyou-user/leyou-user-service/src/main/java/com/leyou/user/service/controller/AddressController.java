@@ -1,11 +1,16 @@
 package com.leyou.user.service.controller;
 
+import com.leyou.auth.entiy.UserInfo;
+import com.leyou.interceptor.LoginInterceptor;
 import com.leyou.user.pojo.Address;
 import com.leyou.user.service.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -21,8 +26,12 @@ public class AddressController {
      * 查询收货地址
      * @return
      */
-    @PostMapping("queryAddresss")
-    public ResponseEntity<List<Address>> queryAddresss(@RequestParam(value = "uid") Long uid) {
+    @PostMapping("queryAddress")
+    public ResponseEntity<List<Address>> queryAddress() {
+        //1.获取用户
+        UserInfo userInfo = LoginInterceptor.getLoginUser();
+        //Long uid = userInfo.getId();
+        Long uid = 29l;
         List<Address> address = addressService.queryAddresss(uid);
         return ResponseEntity.status(HttpStatus.OK).body(address);
     }
@@ -32,12 +41,16 @@ public class AddressController {
      * @return
      */
     @PostMapping("createAddress")
-    public ResponseEntity<Address> createAddress(@RequestParam(value = "uid") Long uid,
-                                                 @RequestParam(value = "state") String state,
+    public ResponseEntity<Address> createAddress(@RequestParam(value = "state") String state,
                                                  @RequestParam(value = "city") String city,
                                                  @RequestParam(value = "district") String district,
                                                  @RequestParam(value = "address") String address,
                                                  @RequestParam(value = "defaultAddress") String defaultAddress) {
+
+        //1.获取用户
+        UserInfo userInfo = LoginInterceptor.getLoginUser();
+        Long uid = userInfo.getId();
+
         //校验数据
         Address addressObj = new Address();
         if(null == uid) {
