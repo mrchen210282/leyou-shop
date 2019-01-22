@@ -22,6 +22,7 @@ public class GlobalCorsConfig {
         config.addAllowedOrigin("http://localhost:9001");
         config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedOrigin("http://127.0.0.1:8081");
+        config.addAllowedOrigin("http://127.0.0.1:9001");
         config.addAllowedOrigin("http://127.0.0.1:8080");
         config.addAllowedOrigin("http://192.168.31.129:8081");
         config.addAllowedOrigin("http://192.168.31.158:8081");

@@ -29,7 +29,6 @@ public class CategoryService {
         Category category = new Category();
         category.setParentId(pid);
         return categoryMapper.select(category);
-
     }
 
     /**
