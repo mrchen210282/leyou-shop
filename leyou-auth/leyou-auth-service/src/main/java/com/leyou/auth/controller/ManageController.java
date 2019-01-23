@@ -37,7 +37,7 @@ public class ManageController {
      * @param response
      * @return
      */
-    @PostMapping("accredit")
+    @PostMapping("111")
     public ResponseEntity<Map<String,Object>> authorization(@RequestBody Map<String,Object> map,
             HttpServletRequest request,
             HttpServletResponse response
@@ -62,7 +62,7 @@ public class ManageController {
      * @param response
      * @return
      */
-    @GetMapping("verify")
+    @GetMapping("111")
     public ResponseEntity<Map<String,Object>> getUserInfo(
             @RequestParam("token") String token,
             HttpServletRequest request,
