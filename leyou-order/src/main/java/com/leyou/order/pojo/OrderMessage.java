@@ -4,20 +4,30 @@ import java.math.BigDecimal;
 
 public class OrderMessage {
 
-    private Integer num;// 商品购买数量
+    private Long skuId;// 商品id
+
+    private Integer quantity;// 商品购买数量
 
     private String title;// 商品标题
 
     private BigDecimal price;// 商品单价
 
-    private String image;// 图片
+    private String imageURL;// 图片
 
-    public Integer getNum() {
-        return num;
+    public Long getSkuId() {
+        return skuId;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setSkuId(Long skuId) {
+        this.skuId = skuId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getTitle() {
@@ -36,11 +46,11 @@ public class OrderMessage {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
