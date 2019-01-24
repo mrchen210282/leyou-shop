@@ -4,6 +4,7 @@ import com.leyou.auth.entiy.UserInfo;
 import com.leyou.user.pojo.Address;
 import com.leyou.user.service.interceptor.LoginInterceptor;
 import com.leyou.user.service.service.AddressService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,58 +48,37 @@ public class AddressController {
      * @return
      */
     @PostMapping("createAddress")
-    public ResponseEntity<Address> createAddress(@RequestParam(value = "state") String state,
-                                                 @RequestParam(value = "city") String city,
-                                                 @RequestParam(value = "district") String district,
-                                                 @RequestParam(value = "address") String addressDetail,
-                                                 @RequestParam(value = "defaultAddress") String isDefault) {
+    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
 
         //1.获取用户
         UserInfo userInfo = LoginInterceptor.getUserInfo();
         Long uid = userInfo.getId();
-
-        //校验数据
-        Address addressObj = new Address();
-        if(null == uid) {
-            return null;
-        } else {
-            addressObj.setUserId(uid);
-        }
+        address.setUserId(uid);
 
         //省份
-        if(null == state) {
+        if(null == address.getState()) {
             return null;
-        } else {
-            addressObj.setState(state);
         }
 
         //市
-        if(null == city) {
+        if(null == address.getCity()) {
             return null;
-        } else {
-            addressObj.setCity(city);
         }
 
         //区/县
-        if(null == district) {
+        if(null == address.getDistrict()) {
             return null;
-        } else {
-            addressObj.setDistrict(district);
         }
 
         //详细地址
-        if(null == addressObj) {
+        if(null == address.getAddressDetail()) {
             return null;
-        } else {
-            addressObj.setAddressDetail(addressDetail);
         }
 
         //是否为默认地址
-        addressObj.setIsDefault("true");
+        addressService.createAddress(address);
 
-        addressService.createAddress(addressObj);
-
-        return ResponseEntity.status(HttpStatus.OK).body(addressObj);
+        return ResponseEntity.status(HttpStatus.OK).body(address);
     }
 
     /**
@@ -116,30 +96,13 @@ public class AddressController {
      * @return
      */
     @PostMapping("updateAddress")
-    public ResponseEntity<Address> updateAddress(@RequestParam(value = "id") Long id,
-                                                 @RequestParam(value = "state") String state,
-                                                 @RequestParam(value = "city") String city,
-                                                 @RequestParam(value = "district") String district,
-                                                 @RequestParam(value = "address") String addressDetail,
-                                                 @RequestParam(value = "defaultAddress") String isDefault) {
-        Address addressObj = new Address();
-        //省份
-        addressObj.setState(state);
-
-        //市
-        addressObj.setCity(city);
-
-        //区/县
-        addressObj.setDistrict(district);
-
-        //详细地址
-        addressObj.setAddressDetail(addressDetail);
-
-        //是否为默认地址
-        addressObj.setIsDefault(isDefault);
-        addressService.updateAddress(addressObj,isDefault);
-
-        return ResponseEntity.status(HttpStatus.OK).body(addressObj);
+    public ResponseEntity<Address> updateAddress(@RequestBody Address address) {
+        //1.获取用户
+        UserInfo userInfo = LoginInterceptor.getUserInfo();
+        Long uid = userInfo.getId();
+        address.setUserId(uid);
+        addressService.updateAddress(address,address.getIsDefault());
+        return ResponseEntity.status(HttpStatus.OK).body(address);
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.leyou.item.controller;
 
 import com.leyou.bo.GoodsBo;
+import com.leyou.cart.pojo.SkuImg;
+import com.leyou.cart.pojo.Spu;
 import com.leyou.item.service.GoodsService;
 import com.leyou.cart.pojo.Sku;
 import com.leyou.cart.pojo.SpuDetail;
@@ -9,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Qin PengCheng
@@ -58,7 +63,6 @@ public class GoodsController {
     public ResponseEntity<Void> deleteSpuById(@RequestParam("id") Long id){
                 this.goodsService.deleteSpuById(id);
                 return ResponseEntity.status(HttpStatus.OK).build();
-
     }
 
     /**
@@ -97,12 +101,46 @@ public class GoodsController {
      return ResponseEntity.status(HttpStatus.OK).body(skus);
     }
 
-    @GetMapping("/sku/{id}")
-    public ResponseEntity<Sku> querySkuById(@PathVariable("id") Long id){
+    /***
+     * 查询商品详情
+     * @param id
+     * @return
+     */
+    @GetMapping("/sku/info")
+    public ResponseEntity<Map<String,Object>> querySkuById(@RequestParam("id") Long id){
         Sku sku = this.goodsService.querySkuBySkuId(id);
-        if (sku == null){
+        //获取图片
+        List<SkuImg> imgs = this.goodsService.skuImgs(id);
+        if (sku == null || imgs == null || imgs.size()<=0){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(sku);
+        Map<String,Object> map = new HashMap<>();
+        map.put("sku",sku);
+        map.put("imgs",imgs);
+        return ResponseEntity.ok(map);
     }
+
+    /**
+     * 根据分类查询商品列表
+     */
+    @GetMapping("/carts/list")
+    public ResponseEntity<List<Sku>> cartsList(@RequestParam("cateId")Long id){
+        List<Spu> spus =   this.goodsService.spusByCateId(id);
+        List<Sku> skus = new LinkedList<Sku>();
+        for (Spu su : spus){
+            List<Sku> sku = goodsService.querySkusBySpuId(su.getId());
+            skus.add(sku.get(0));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(skus);
+    }
+
+    /**
+     * 根据spuid查询商品列表
+     */
+    @GetMapping("/spus/list")
+    public ResponseEntity<List<Sku>> spusList(@RequestParam("spuid")Long spuid){
+        List<Sku> skus =   this.goodsService.skuBySpuId(spuid);
+        return ResponseEntity.status(HttpStatus.OK).body(skus);
+    }
+
 }

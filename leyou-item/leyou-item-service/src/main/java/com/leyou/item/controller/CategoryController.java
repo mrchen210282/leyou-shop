@@ -156,7 +156,7 @@ public class CategoryController {
      * 23级分类
      */
     @GetMapping("lastList")
-    public ResponseEntity<JSONArray> lastList(@RequestParam(value = "pid", defaultValue = "1") Long pid) {
+    public ResponseEntity<JSONArray> lastList(@RequestParam(value = "pid", defaultValue = "0") Long pid) {
         //获取二级分类
         List<Category> secList = categoryService.queryCategoryByPid(pid);
         String str = "[";

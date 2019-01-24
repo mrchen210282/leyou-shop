@@ -1,6 +1,8 @@
 package com.leyou.user.service.service;
 
+import com.leyou.auth.entiy.UserInfo;
 import com.leyou.user.pojo.Address;
+import com.leyou.user.service.interceptor.LoginInterceptor;
 import com.leyou.user.service.mapper.AddressMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import java.util.List;
  */
 @Service
 public class AddressService {
-
 
     @Autowired
     private AddressMapper addressMapper;
@@ -57,10 +58,12 @@ public class AddressService {
     public int createAddress(Address address) {
         int isSuc = 0;
 
-        if(StringUtils.isNotBlank(address.getIsDefault())) {
+        Address add = new Address();
+        add.setUserId(address.getUserId());
+        List<Address> postion = addressMapper.select(add);
+
+        if(null != postion && postion.size() <= 0) {
             address.setIsDefault("true");
-            //新添加的收货地址设置为默认地址
-            addressMapper.updateDefaultAddress(address.getUserId());
         } else {
             address.setIsDefault("false");
         }
@@ -89,18 +92,27 @@ public class AddressService {
      * @param address
      * @return
      */
-    public int updateAddress(Address address,String defaultAddress) {
+    public int updateAddress(Address address,String isDefault) {
         int isSuc = 0;
-        Address addres = addressMapper.selectByPrimaryKey(address);
+        Address addres = addressMapper.selectByPrimaryKey(address.getId());
         if(null != addres) {
-            addressMapper.updateByPrimaryKeySelective(addres);
 
-            //查询是否有默认的收货地址
-            List<Address> list = addressMapper.selectDefaultAddress(address.getUserId());
-            //判断defaultAddress是否为空，不为空则把当前的设置为默认收货地址
-            if(null == list || list.size() <= 0) {
-                this.updateDefaultAddress(list,defaultAddress);
+            if("false".equals(isDefault)) {
+                addressMapper.updateByPrimaryKeySelective(address);
+            } else {
+                //查询是否有默认的收货地址
+                List<Address> list = addressMapper.selectDefaultAddress(address.getUserId());
+                //判断defaultAddress是否为空，不为空则把当前的设置为默认收货地址
+                if(null != list && list.size() > 0) {
+                    addressMapper.updateDefaultAddress(address.getUserId());
+                    addressMapper.updateByPrimaryKeySelective(address);
+                } else {
+                    addressMapper.updateByPrimaryKeySelective(address);
+                }
             }
+
+
+
         }
         return isSuc;
     }
@@ -115,8 +127,15 @@ public class AddressService {
         Address addres = addressMapper.selectByPrimaryKey(id);
         if(null != addres) {
             addressMapper.deleteByPrimaryKey(id);
-            List<Address> list = addressMapper.selectAll();
-            this.updateDefaultAddress(list,"");
+
+            //1.获取用户
+            UserInfo userInfo = LoginInterceptor.getUserInfo();
+            Long uid = userInfo.getId();
+            Address add = new Address();
+            add.setUserId(uid);
+            //List list = addressMapper.selectByExample(add);
+
+            //this.updateDefaultAddress(list,"");
         }
         return isSuc;
     }
@@ -125,7 +144,7 @@ public class AddressService {
     private void updateDefaultAddress(List<Address> list,String defaultAddress) {
         if(null != list && list.size() > 0) {
             Address position = list.get(0);
-            if(StringUtils.isNotBlank(defaultAddress)) {
+            if("true".equals(position.getIsDefault())) {
                 position.setIsDefault("true");
             } else {
                 position.setIsDefault("false");

@@ -1,11 +1,8 @@
 package com.leyou.item.service;
 
 import com.leyou.bo.GoodsBo;
+import com.leyou.cart.pojo.*;
 import com.leyou.item.mapper.*;
-import com.leyou.cart.pojo.Sku;
-import com.leyou.cart.pojo.Spu;
-import com.leyou.cart.pojo.SpuDetail;
-import com.leyou.cart.pojo.Stock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -30,6 +27,9 @@ public class GoodsService {
 
     @Autowired
     private SpuMapper spuMapper;
+
+    @Autowired
+    private SkuImgMapper skuImgMapper;
 
     @Autowired
     private SpuDetailMapper spuDetailMapper;
@@ -266,6 +266,34 @@ public class GoodsService {
     public Sku querySkuBySkuId(Long id) {
         Sku sku = this.skuMapper.selectByPrimaryKey(id);
         return sku;
+    }
+
+    /**
+     * 根据分类查询商品列表
+     * @param id
+     * @return
+     */
+    public List<Spu> spusByCateId(Long id) {
+        List<Spu> spus = this.spuMapper.spusByCateId(id);
+        return spus;
+    }
+
+    /**
+     * 根据spuid查询商品列表
+     * @param id
+     * @return
+     */
+    public List<Sku> skuBySpuId(Long id) {
+        List<Sku> skus = this.skuMapper.skuBySpuId(id);
+        return skus;
+    }
+
+    /**
+     * 根据商品id 获取图片
+     */
+    public List<SkuImg> skuImgs(Long id){
+        List<SkuImg> imgs = skuImgMapper.skuImgById(id);
+        return imgs;
     }
 }
 
