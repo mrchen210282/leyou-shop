@@ -54,8 +54,8 @@ ly:
     workerId: 1
     datacenterId: 1
   jwt:
-    pubKeyPath: H:/rsa/rsa.pub # 公钥地址
-    cookieName: LY_TOKEN # cookie的名称
+    pubKeyPath: D:\\id_rsa.pub # 公钥地址
+    cookieName: token # cookie的名称
   pay:
     appId: wx8397f8696b538317
     mchId: 1473426802
