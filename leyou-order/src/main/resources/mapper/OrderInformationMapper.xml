@@ -7,9 +7,12 @@
     <select id="queryOrder" resultType="com.leyou.order.pojo.OrderInformation">
         select tt.order_id,tos.`status` from tb_order tt
         left join tb_order_status tos on tt.order_id = tos.order_id
-        WHERE  tt.user_id = #{id}
+        WHERE tt.user_id = #{id}
         <if test="status != null and status != ''">
             AND tos.status = #{status}
+        </if>
+        <if test="orderId != null and orderId != ''">
+            AND tt.order_id = #{orderId}
         </if>
         order by tt.order_id,tt.create_time
     </select>

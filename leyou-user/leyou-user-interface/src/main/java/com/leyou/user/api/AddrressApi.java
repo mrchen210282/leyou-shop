@@ -26,4 +26,13 @@ public interface AddrressApi {
             @RequestParam(value = "password", required = true) String password
     );
 
+    /**
+     * 查询收货地址
+     * @return
+     */
+    @GetMapping("queryAddress")
+    public ResponseEntity<User> queryAddress(
+            @RequestParam(value = "id", required = true) Long id
+    );
+
 }
