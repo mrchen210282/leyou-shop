@@ -4,26 +4,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * @author wj
  * @date 2019/1/21
  */
-@Table(name = "tb_favorite")
-public class Favorite {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class FavoriteEntity {
 
     //用户ID
     private Long uid;
 
     //商品ID
-    private Long itemId;
+    private Long id;
 
     //
+    private String imageURL;
+
+    private BigDecimal price;
+
+    private String title;
+
     private Date createTime;
 
     public Long getId() {
@@ -42,12 +44,28 @@ public class Favorite {
         this.uid = uid;
     }
 
-    public Long getItemId() {
-        return itemId;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getCreateTime() {
