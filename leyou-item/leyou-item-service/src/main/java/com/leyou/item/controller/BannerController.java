@@ -104,5 +104,4 @@ public class BannerController {
         bannerService.insertBanner(appBannerEntity);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
 }
