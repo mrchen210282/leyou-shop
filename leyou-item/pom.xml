@@ -18,4 +18,21 @@
         <module>leyou-item-service</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.leyou.service</groupId>
+            <artifactId>leyou-auth-commom</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+    </dependencies>
 </project>

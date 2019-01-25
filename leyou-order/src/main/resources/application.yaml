@@ -5,8 +5,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://192.168.31.43:3306/leyou?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
-    username: root
+    url: jdbc:mysql://127.0.0.1:3306/leyou?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true    username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     druid:
@@ -29,7 +28,7 @@ spring:
       exchange: ly.item.exchange
     publisher-confirms: true
   redis:
-    host: 192.168.56.101
+    host: 127.0.0.1
 eureka:
   client:
     service-url:
@@ -43,7 +42,7 @@ eureka:
 
 mybatis:
   type-aliases-package: com.leyou.item.pojo
-  mapper-locations: mapper/OrderMapper.xml
+  mapper-locations: mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
 mapper:
