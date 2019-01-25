@@ -10,10 +10,10 @@ spring:
   jackson:
       default-property-inclusion: non_null # 配置json处理时忽略空值
   rabbitmq:
-    host: 192.168.56.101
-    username: admin
-    password: admin
-    virtual-host: /leyou
+    host: localhost
+    username: guest
+    password: guest
+    virtual-host: /
 eureka:
   client:
     service-url:
