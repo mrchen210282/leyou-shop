@@ -27,7 +27,7 @@ public class OrderDetailService {
     /**
      * 查询我的中的订单信息
      *
-     * @param status 1、未付款 2、已付款,未发货 3、已发货,未确认 4、交易成功 5、交易关闭 6、已评价
+     * @param status 1、未付款 2、已付款,未发货  3、交易成功 4、交易关闭
      * @return
      */
     public List<MyOrderDetail> queryOrder(String status) {
@@ -53,17 +53,11 @@ public class OrderDetailService {
                     myOrderDetail.setDesc("待收货");
                     myOrderDetail.setStatus("2");
                 } else if ("3".equals(orderStatus)) {
-                    myOrderDetail.setDesc("待收货");
+                    myOrderDetail.setDesc("已完成");
                     myOrderDetail.setStatus("3");
-                } else if ("4".equals(orderStatus)) {
-                    myOrderDetail.setDesc("已完成");
-                    myOrderDetail.setStatus("4");
-                } else if ("5".equals(orderStatus)) {
-                    myOrderDetail.setDesc("交易关闭");
-                    myOrderDetail.setStatus("5");
                 } else {
-                    myOrderDetail.setDesc("已完成");
-                    myOrderDetail.setStatus("6");
+                    myOrderDetail.setDesc("交易关闭");
+                    myOrderDetail.setStatus("4");
                 }
 
                 List<OrderDetail> orderList = orderDetailMapper.queryOrderDetail(orderEntity.getOrderId());

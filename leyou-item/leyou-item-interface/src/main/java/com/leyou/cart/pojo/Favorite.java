@@ -23,6 +23,8 @@ public class Favorite {
     //商品ID
     private Long itemId;
 
+    private String imageURL;
+
     //
     private Date createTime;
 
