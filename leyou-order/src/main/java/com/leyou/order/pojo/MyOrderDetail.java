@@ -11,7 +11,13 @@ public class MyOrderDetail {
 
     private String desc;
 
-    private BigDecimal total; //格格
+    private BigDecimal total; //商品总价
+
+    //运费
+    private BigDecimal carriage;
+
+    //实付总价
+    private BigDecimal payTotal;
 
     private List<OrderMessage> list;
 
@@ -53,5 +59,21 @@ public class MyOrderDetail {
 
     public void setList(List<OrderMessage> list) {
         this.list = list;
+    }
+
+    public BigDecimal getCarriage() {
+        return carriage;
+    }
+
+    public void setCarriage(BigDecimal carriage) {
+        this.carriage = carriage;
+    }
+
+    public BigDecimal getPayTotal() {
+        return payTotal;
+    }
+
+    public void setPayTotal(BigDecimal payTotal) {
+        this.payTotal = payTotal;
     }
 }
