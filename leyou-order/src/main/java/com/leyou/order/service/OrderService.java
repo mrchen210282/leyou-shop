@@ -6,10 +6,12 @@ import com.leyou.auth.entiy.UserInfo;
 import com.leyou.common.PageResult;
 import com.leyou.order.interceptor.LoginInterceptor;
 import com.leyou.order.mapper.OrderDetailMapper;
+import com.leyou.order.mapper.OrderInformationMapper;
 import com.leyou.order.mapper.OrderMapper;
 import com.leyou.order.mapper.OrderStatusMapper;
 import com.leyou.order.pojo.*;
 import com.leyou.utils.IdWorker;
+import com.leyou.utils.PayHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class OrderService {
 
     @Autowired
     private OrderStatusMapper statusMapper;
+
+    @Autowired
+    private OrderInformationMapper orderInformationMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
