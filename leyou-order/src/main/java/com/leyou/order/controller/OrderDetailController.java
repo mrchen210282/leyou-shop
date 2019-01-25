@@ -32,6 +32,7 @@ public class OrderDetailController {
     //@ApiOperation(value = "分页查询当前用户订单，并且可以根据订单状态过滤", notes = "分页查询当前用户订单")
     public ResponseEntity<List<MyOrderDetail>> queryOrder(
             @RequestParam(value = "status") String status) {
+        
         List<MyOrderDetail> list = orderDetailService.queryOrder(status);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
