@@ -25,6 +25,10 @@ public class Favorite {
 
     private String imageURL;
 
+    private String title;
+
+    private Double price;
+
     //
     private Date createTime;
 
@@ -58,5 +62,29 @@ public class Favorite {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

@@ -2,8 +2,6 @@ package com.leyou.item.controller;
 
 import com.leyou.cart.pojo.Favorite;
 import com.leyou.cart.pojo.FavoriteEntity;
-import com.leyou.common.PageResult;
-import com.leyou.item.service.FavoriteEntityService;
 import com.leyou.item.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,16 +24,17 @@ public class FavoriteController {
     @Autowired
     private FavoriteService favoriteService;
 
-    @Autowired
-    private FavoriteEntityService favoriteEntityService;
-
     /**
      * 查询收藏信息
      * @return
      */
     @PostMapping("queryFavorite")
-    public ResponseEntity<List<FavoriteEntity>> queryFavorite() {
-        List<FavoriteEntity> list = favoriteEntityService.queryFavorite();
+    public ResponseEntity<List<Favorite>> queryFavorite() {
+        List<Favorite> list = favoriteService.queryFavorite();
+
+        FavoriteEntity favoriteEntity = new FavoriteEntity();
+        favoriteEntity.setTotalPage(list.size());
+        favoriteEntity.setList(list);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

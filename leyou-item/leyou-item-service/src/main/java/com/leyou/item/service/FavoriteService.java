@@ -2,9 +2,7 @@ package com.leyou.item.service;
 
 import com.leyou.auth.entiy.UserInfo;
 import com.leyou.cart.pojo.Favorite;
-import com.leyou.cart.pojo.FavoriteEntity;
 import com.leyou.item.interceptor.LoginInterceptor;
-import com.leyou.item.mapper.FavoriteEntityMapper;
 import com.leyou.item.mapper.FavoriteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +19,13 @@ public class FavoriteService {
     @Autowired
     private FavoriteMapper favoriteMapper;
 
-    @Autowired
-    private FavoriteEntityMapper favoriteEntityMapper;
-
     /**
      * 查询用户的全部收藏信息
      * @return
      */
-    public List<FavoriteEntity> queryFavorite() {
+    public List<Favorite> queryFavorite() {
         UserInfo userInfo = LoginInterceptor.getLoginUser();
-        List<FavoriteEntity> list = favoriteEntityMapper.queryFavorite(userInfo.getId());
+        List<Favorite> list = favoriteMapper.queryFavorite(userInfo.getId());
         return list;
 
         //开始分页

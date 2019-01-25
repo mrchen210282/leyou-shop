@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface FavoriteMapper extends Mapper<Favorite> {
 
-    @Select("select tf.item_id as itemId,ts.images as imageURL,ts.price,ts.title from tb_favorite tf" +
-            "left join tb_sku ts on tf.item_id = ts.id" +
-            "where tf.uid = #{uid}" +
-            "ORDER BY tf.create_time DESC")
+    @Select("select tf.id,tf.item_id as itemId,ts.images as imageURL,ts.price,ts.title from tb_favorite tf " +
+            "left join tb_sku ts on tf.item_id = ts.id " +
+            "where tf.uid = #{uid} " +
+            " ORDER BY tf.create_time DESC")
     List<Favorite> queryFavorite(@Param("uid") Long uid);
 }
