@@ -12,6 +12,7 @@ public class Sku {
     private String title;
     private String images;
     private Long price;
+    private Long quantity;
     private String ownSpec;// 商品特殊规格的键值对
     private String indexes;// 商品特殊规格的下标
     private Boolean enable;// 是否有效，逻辑删除用
@@ -108,6 +109,14 @@ public class Sku {
         this.stock = stock;
     }
 
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "Sku{" +
@@ -116,6 +125,7 @@ public class Sku {
                 ", title='" + title + '\'' +
                 ", images='" + images + '\'' +
                 ", price=" + price +
+                ", quantity=" + quantity +
                 ", ownSpec='" + ownSpec + '\'' +
                 ", indexes='" + indexes + '\'' +
                 ", enable=" + enable +

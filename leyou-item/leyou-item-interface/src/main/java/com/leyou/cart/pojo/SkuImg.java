@@ -1,10 +1,10 @@
 package com.leyou.cart.pojo;
 
-
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Table(name = "tb_sku_banner")
-public class SkuImg{
+public class SkuImg {
 
     @Id
     private Long skuId;
