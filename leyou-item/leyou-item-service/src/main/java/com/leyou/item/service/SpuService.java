@@ -86,4 +86,12 @@ public class SpuService {
         Spu spu = this.spuMapper.selectByPrimaryKey(id);
         return spu;
     }
+
+
+    /**
+     * 规格添加
+     */
+    public void addSpus(Spu spu){
+        spuMapper.insert(spu);
+    }
 }
