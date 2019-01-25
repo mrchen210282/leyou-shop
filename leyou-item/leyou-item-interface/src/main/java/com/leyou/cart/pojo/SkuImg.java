@@ -7,6 +7,8 @@ import javax.persistence.Table;
 public class SkuImg {
 
     @Id
+    private Integer id;
+
     private Long skuId;
 
     private String img;
@@ -14,6 +16,14 @@ public class SkuImg {
     private Integer sort;
 
     private Integer imgStyle;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Long getSkuId() {
         return skuId;
@@ -50,6 +60,7 @@ public class SkuImg {
     @Override
     public String toString() {
         return "Brand{" +
+                "id=" + id +
                 "skuId=" + skuId +
                 ", img='" + img + '\'' +
                 ", order='" + sort + '\'' +

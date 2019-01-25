@@ -6,11 +6,15 @@ import com.leyou.cart.pojo.Spu;
 import com.leyou.item.service.GoodsService;
 import com.leyou.cart.pojo.Sku;
 import com.leyou.cart.pojo.SpuDetail;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Decoder;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +45,7 @@ public class GoodsController {
     }
 
     /**
-     * 根据id查询商品细节的方法
+     * 根据id查询商品细节
      * @param id
      * @return
      */
@@ -55,7 +59,7 @@ public class GoodsController {
     }
 
     /**
-     * 删除商品的方法
+     * 删除商品
      * @param id
      * @return
      */
@@ -63,6 +67,17 @@ public class GoodsController {
     public ResponseEntity<Void> deleteSpuById(@RequestParam("id") Long id){
                 this.goodsService.deleteSpuById(id);
                 return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    /**
+     * 修改商品
+     * @param goods
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<Void> updateGoods(@RequestBody GoodsBo goods){
+        this.goodsService.updateGoods(goods);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     /**
@@ -79,19 +94,7 @@ public class GoodsController {
     }
 
     /**
-     * 修改商品的方法
-     * @param goods
-     * @return
-     */
-    @PutMapping
-    public ResponseEntity<Void> updateGoods(@RequestBody GoodsBo goods){
-        this.goodsService.updateGoods(goods);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-
-    /**
-     * 查询sku的方法
+     * 查询商品列表
      * @param id
      * @return
      */
@@ -101,8 +104,9 @@ public class GoodsController {
      return ResponseEntity.status(HttpStatus.OK).body(skus);
     }
 
+//***********************************GYG***********************************//
     /***
-     * 查询商品详情
+     * 查询商品详情和商品图片
      * @param id
      * @return
      */
@@ -121,7 +125,7 @@ public class GoodsController {
     }
 
     /**
-     * 根据分类查询商品列表
+     * 根据cateid查询商品列表
      */
     @GetMapping("/carts/list")
     public ResponseEntity<List<Sku>> cartsList(@RequestParam("cateId")Long id){
@@ -141,6 +145,54 @@ public class GoodsController {
     public ResponseEntity<List<Sku>> spusList(@RequestParam("spuid")Long spuid){
         List<Sku> skus =   this.goodsService.skuBySpuId(spuid);
         return ResponseEntity.status(HttpStatus.OK).body(skus);
+    }
+
+
+    /**
+     * 添加商品图片
+     */
+    @GetMapping("/sku/addimg")
+    public ResponseEntity<Void> addImages(@RequestBody SkuImg img){
+        String imgPath = "http://www.bitflash.vip/banner/";
+        String path = "/home/statics/banner/";
+        String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
+        path = path+imgName;
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            // Base64解码
+            String[] base64Str = img.getImg().split(",");
+            if (base64Str.length >= 2) {
+                byte[] b = decoder.decodeBuffer(base64Str[1]);
+                for (int i = 0; i < b.length; ++i) {
+                    // 调整异常数据
+                    if (b[i] < 0) {
+                        b[i] += 256;
+                    }
+                }
+                // 生成jpeg图片
+                OutputStream out = new FileOutputStream(path);
+                out.write(b);
+                out.flush();
+                out.close();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        img.setImg(imgPath+imgName);
+        goodsService.addImgs(img);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    /**
+     * 删除商品图片
+     */
+    @GetMapping("/sku/delimg")
+    public ResponseEntity<Void> delImages(@RequestBody SkuImg img){
+        goodsService.delImgs(img);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 }

@@ -295,6 +295,21 @@ public class GoodsService {
         List<SkuImg> imgs = skuImgMapper.skuImgById(id);
         return imgs;
     }
+
+    /**
+     * 图片添加
+     */
+    public void addImgs(SkuImg img){
+        skuImgMapper.insert(img);
+    }
+
+    /**
+     * 图片删除
+     */
+    public void delImgs(SkuImg img){
+        skuImgMapper.delete(img);
+    }
 }
+
 
 
