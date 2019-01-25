@@ -21,7 +21,13 @@ public class Favorite {
     private Long uid;
 
     //商品ID
-    private String itemId;
+    private Long itemId;
+
+    private String imageURL;
+
+    private String title;
+
+    private Double price;
 
     //
     private Date createTime;
@@ -42,11 +48,11 @@ public class Favorite {
         this.uid = uid;
     }
 
-    public String getItemId() {
+    public Long getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Long itemId) {
         this.itemId = itemId;
     }
 
@@ -56,5 +62,29 @@ public class Favorite {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

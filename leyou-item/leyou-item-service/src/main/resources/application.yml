@@ -37,3 +37,9 @@ eureka:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    mapper-locations: mapper/*.xml
+
+ly:
+  jwt:
+    pubKeyPath: D:\\id_rsa.pub # 公钥地址
+    cookieName: token # cookie的名称

@@ -2,8 +2,8 @@ package com.leyou.order.controller;
 
 import com.leyou.order.pojo.MyOrderDetail;
 import com.leyou.order.service.OrderDetailService;
-import com.leyou.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +27,6 @@ public class OrderDetailController {
     public ResponseEntity<List<MyOrderDetail>> queryOrder(
             @RequestParam(value = "status") String status) {
         List<MyOrderDetail> list = orderDetailService.queryOrder(status);
-        return ResponseEntity.ok(list);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 }

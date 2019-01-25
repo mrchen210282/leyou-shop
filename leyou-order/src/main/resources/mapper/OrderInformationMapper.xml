@@ -11,6 +11,6 @@
         <if test="status != null and status != ''">
             AND tos.status = #{status}
         </if>
-        order by tt.order_id
+        order by tt.order_id,tt.create_time
     </select>
 </mapper>

@@ -5,7 +5,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://192.168.31.43:3306/leyou?autoReconnect=true&useUnicode=true&createDatabaseIfNotExist=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://192.168.31.43:3306/leyou?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -16,10 +16,10 @@ spring:
       max-wait: 1000
       test-on-borrow: true
   rabbitmq:
-    host: 192.168.56.101
-    username: admin
-    password: admin
-    virtual-host: /leyou
+    host: localhost
+    username: guest
+    password: guest
+    virtual-host: /
     template:
       retry:
         enabled: true
@@ -29,7 +29,7 @@ spring:
       exchange: ly.item.exchange
     publisher-confirms: true
   redis:
-    host: 127.0.0.1
+    host: 192.168.56.101
 eureka:
   client:
     service-url:
@@ -43,7 +43,7 @@ eureka:
 
 mybatis:
   type-aliases-package: com.leyou.item.pojo
-  mapper-locations: mapper/*.xml
+  mapper-locations: mapper/OrderMapper.xml
   configuration:
     map-underscore-to-camel-case: true
 mapper:
