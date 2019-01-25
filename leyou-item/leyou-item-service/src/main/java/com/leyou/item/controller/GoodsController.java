@@ -190,9 +190,18 @@ public class GoodsController {
      * 删除商品图片
      */
     @GetMapping("/sku/delimg")
-    public ResponseEntity<Void> delImages(@RequestBody SkuImg img){
-        goodsService.delImgs(img);
+    public ResponseEntity<Void> delImag(@RequestBody SkuImg img){
+        goodsService.delImg(img);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    /**
+     * 删除该商品下的所有图片
+     */
+//    @GetMapping("sku/delImgs")
+//    public ResponseEntity<Void> delImgs(@RequestParam("id") Long id){
+//        goodsService.delImgs();
+//        return  ResponseEntity.status(HttpStatus.OK).body(null);
+//    }
 
 }

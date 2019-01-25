@@ -306,6 +306,13 @@ public class GoodsService {
     /**
      * 图片删除
      */
+    public void delImg(SkuImg img){
+        skuImgMapper.delete(img);
+    }
+
+    /**
+     * 图片删除
+     */
     public void delImgs(SkuImg img){
         skuImgMapper.delete(img);
     }

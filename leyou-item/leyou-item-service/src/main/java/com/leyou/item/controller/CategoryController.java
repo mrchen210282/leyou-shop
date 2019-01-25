@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -157,8 +158,17 @@ public class CategoryController {
      */
     @GetMapping("lastList")
     public ResponseEntity<JSONArray> lastList(@RequestParam(value = "pid", defaultValue = "0") Long pid) {
-        //获取二级分类
-        List<Category> secList = categoryService.queryCategoryByPid(pid);
+        //获取1级分类
+        List<Category> sec1List = categoryService.queryCategoryByPid(pid);
+        //获取2级分类
+        List<Category> secList = new LinkedList<>();
+        for (Category cate2 : sec1List){
+            List<Category> secs = categoryService.queryCategoryByPid(cate2.getId());
+            for (Category c2 : secs){
+                secList.add(c2);
+            }
+        }
+
         String str = "[";
         for (Category list2 : secList){
             str = str + "{\"name\":\""+list2.getName()+"\",\"children\":[";
