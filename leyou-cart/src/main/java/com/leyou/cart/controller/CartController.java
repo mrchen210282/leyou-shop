@@ -54,8 +54,8 @@ public class CartController {
      */
     @PutMapping("updateCart")
     public ResponseEntity<Map> updateNum(@RequestParam("skuId") Long skuId, @RequestParam("num") Integer num){
-        if(num<0){
-            return ResponseEntity.ok(new ModelMap("code","不能为负数"));
+        if(num<1){
+            return ResponseEntity.ok(new ModelMap("code","最低值为1"));
         }
         this.cartService.updateNum(skuId,num);
         return ResponseEntity.ok().build();

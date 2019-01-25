@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leyou.order.mapper.OrderInformationMapper">
+
+
+    <select id="queryOrder" resultType="com.leyou.order.pojo.OrderInformation">
+        select tt.order_id,tos.`status` from tb_order tt
+        left join tb_order_status tos on tt.order_id = tos.order_id
+        WHERE  tt.user_id = #{id}
+        <if test="status != null and status != ''">
+            AND tos.status = #{status}
+        </if>
+        order by tt.order_id
+    </select>
+</mapper>

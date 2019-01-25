@@ -5,9 +5,9 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/leyou?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.31.43:3306/leyou?autoReconnect=true&useUnicode=true&createDatabaseIfNotExist=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC
     username: root
-    password: 123
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     druid:
       initial-size: 5
@@ -29,7 +29,7 @@ spring:
       exchange: ly.item.exchange
     publisher-confirms: true
   redis:
-    host: 192.168.56.101
+    host: 127.0.0.1
 eureka:
   client:
     service-url:
@@ -43,7 +43,7 @@ eureka:
 
 mybatis:
   type-aliases-package: com.leyou.item.pojo
-  mapper-locations: mapper/OrderMapper.xml
+  mapper-locations: mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
 mapper:
@@ -54,8 +54,8 @@ ly:
     workerId: 1
     datacenterId: 1
   jwt:
-    pubKeyPath: H:/rsa/rsa.pub # 公钥地址
-    cookieName: LY_TOKEN # cookie的名称
+    pubKeyPath: D:\\id_rsa.pub # 公钥地址
+    cookieName: token # cookie的名称
   pay:
     appId: wx8397f8696b538317
     mchId: 1473426802

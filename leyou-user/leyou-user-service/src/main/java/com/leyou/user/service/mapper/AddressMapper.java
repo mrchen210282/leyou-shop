@@ -14,12 +14,12 @@ import java.util.List;
  */
 public interface AddressMapper extends Mapper<Address> {
 
-//    @Update("UPDATE tb_address SET is_default = 'false' WHERE id = #{userId}" )
+    //    @Update("UPDATE tb_address SET is_default = 'false' WHERE id = #{userId}" )
 //    void updateAddress(@Param("userId") Long userId);
 
     //查询是否有默认的收货地址
-    @Select("SELECT * FROM tb_address WHERE user_id = #{uid} AND default_address = 'true'")
-    List<Address> selectDefaultAddress(@Param("uid") Long uid);
+    @Select("SELECT * FROM tb_address WHERE user_id = #{userId} AND is_default = 'true'")
+    List<Address> selectDefaultAddress(@Param("userId") Long userId);
 
     //更新默认的收货地址
     @Update("UPDATE tb_address SET is_default = 'false' WHERE user_id = #{userId}")

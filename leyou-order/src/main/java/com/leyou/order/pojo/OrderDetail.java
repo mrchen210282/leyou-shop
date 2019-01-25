@@ -4,6 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Table(name = "tb_order_detail")
 public class OrderDetail {
@@ -16,15 +17,15 @@ public class OrderDetail {
 
     private Long skuId;// 商品id
 
-    private Integer num;// 商品购买数量
+    private Integer quantity;// 商品购买数量
 
     private String title;// 商品标题
 
-    private Long price;// 商品单价
+    private BigDecimal price;// 商品单价
 
     private String ownSpec;// 商品规格数据
 
-    private String image;// 图片
+    private String imageURL;// 图片
 
     public Long getId() {
         return id;
@@ -50,14 +51,6 @@ public class OrderDetail {
         this.skuId = skuId;
     }
 
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -66,11 +59,11 @@ public class OrderDetail {
         this.title = title;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -82,11 +75,19 @@ public class OrderDetail {
         this.ownSpec = ownSpec;
     }
 
-    public String getImage() {
-        return image;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
