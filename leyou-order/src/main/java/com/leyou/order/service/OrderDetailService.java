@@ -149,6 +149,9 @@ public class OrderDetailService {
             payOrderDetail.setCity(address.getCity());
             payOrderDetail.setDistrict(address.getDistrict());
             payOrderDetail.setAddressDetail(address.getAddressDetail());
+            payOrderDetail.setPayTime(receiveAddress.getPayTime());
+            payOrderDetail.setExpressName("顺风");
+            payOrderDetail.setExpressNum("333333");
 
         }
         return payOrderDetail;
