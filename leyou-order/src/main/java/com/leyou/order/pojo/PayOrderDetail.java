@@ -1,5 +1,7 @@
 package com.leyou.order.pojo;
 
+import java.util.Date;
+
 /**
  * wj
  * 2019.1.25
@@ -19,6 +21,14 @@ public class PayOrderDetail {
     private String district;
 
     private String addressDetail;
+
+    private Date payTime;
+
+    //快递公司名称
+    private String expressName;
+
+    //快递单号
+    private String expressNum;
 
     public MyOrderDetail getMyOrderDetail() {
         return myOrderDetail;
@@ -74,5 +84,29 @@ public class PayOrderDetail {
 
     public void setAddressDetail(String addressDetail) {
         this.addressDetail = addressDetail;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    public String getExpressName() {
+        return expressName;
+    }
+
+    public void setExpressName(String expressName) {
+        this.expressName = expressName;
+    }
+
+    public String getExpressNum() {
+        return expressNum;
+    }
+
+    public void setExpressNum(String expressNum) {
+        this.expressNum = expressNum;
     }
 }

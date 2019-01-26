@@ -3,6 +3,7 @@ package com.leyou.user.service.controller;
 import com.leyou.user.pojo.User;
 import com.leyou.user.service.service.AddressService;
 import com.leyou.user.service.service.UserService;
+import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -89,6 +90,39 @@ public class UserController {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
       return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    /**
+     * 查询用户信息
+     * @return
+     */
+    @PostMapping("queryById")
+    public ResponseEntity<User> queryById() {
+        User user = userService.queryById();
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    /**
+     * 修改昵称
+     * @return
+     */
+    @PostMapping("changeNickName")
+    public ResponseEntity<Void> changeNickName(@RequestParam(value = "nickName") String nickName) {
+        userService.changeNickName(nickName);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    /**
+     * 修改密码
+     * @return
+     */
+    @PostMapping("changePwd")
+    public ResponseEntity<Boolean> changePwd(@RequestParam(value = "oldPwd") String oldPwd,@RequestParam(value = "newPwd") String newPwd) {
+        Boolean flag = userService.changePwd(oldPwd,newPwd);
+        if(!flag) {
+            return ResponseEntity.status(500).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 

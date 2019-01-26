@@ -60,8 +60,8 @@ public class OrderDetailController {
     }
 
     @PostMapping("queryAddressDetail")
-    public ResponseEntity<PayOrderDetail> queryAddressDetail(@RequestParam(value = "orderId") Long orderId,@RequestParam(value = "status") String status) {
-        PayOrderDetail payOrderDetail = orderDetailService.queryAddressDetail(orderId,status);
+    public ResponseEntity<PayOrderDetail> queryAddressDetail(@RequestParam(value = "orderId") Long orderId) {
+        PayOrderDetail payOrderDetail = orderDetailService.queryAddressDetail(orderId,"");
         return ResponseEntity.status(HttpStatus.OK).body(payOrderDetail);
     }
 }
