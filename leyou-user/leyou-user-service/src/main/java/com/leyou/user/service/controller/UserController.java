@@ -119,6 +119,9 @@ public class UserController {
     @PostMapping("changePwd")
     public ResponseEntity<Boolean> changePwd(@RequestParam(value = "oldPwd") String oldPwd,@RequestParam(value = "newPwd") String newPwd) {
         Boolean flag = userService.changePwd(oldPwd,newPwd);
+        if(!flag) {
+            return ResponseEntity.status(500).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
