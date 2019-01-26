@@ -1,6 +1,8 @@
 package com.leyou.user.service.service;
 
+import com.leyou.auth.entiy.UserInfo;
 import com.leyou.user.pojo.User;
+import com.leyou.user.service.interceptor.LoginInterceptor;
 import com.leyou.user.service.mapper.UserMapper;
 import com.leyou.utils.Md5Utils;
 import com.leyou.utils.NumberUtils;
@@ -131,5 +133,46 @@ public class UserService {
             return null;
         }
         return user;
+    }
+
+    /**
+     * 通过ID查询用户信息
+     * @return
+     */
+    public User queryById() {
+        UserInfo userInfo = LoginInterceptor.getUserInfo();
+        User user = userMapper.selectByPrimaryKey(userInfo.getId());
+        return user;
+    }
+
+    /**
+     * 修改呢称
+     */
+    public void changeNickName(String nickName) {
+        UserInfo userInfo = LoginInterceptor.getUserInfo();
+        User user = new User();
+        user.setId(userInfo.getId());
+        user.setNickName(nickName);
+        userMapper.updateByPrimaryKeySelective(user);
+
+    }
+
+    public Boolean changePwd(String oldPwd,String newPwd) {
+        Boolean flag = false;
+        UserInfo userInfo = LoginInterceptor.getUserInfo();
+        User user = userMapper.selectByPrimaryKey(userInfo.getId());
+
+        //判断密码是否和原密码相同
+        String salt = user.getSalt();
+        String md5Password = Md5Utils.encryptPassword(oldPwd, salt);
+        if(md5Password.equals(user.getPassword())) {
+
+            user.setId(userInfo.getId());
+            String pwd = Md5Utils.encryptPassword(newPwd, salt);
+            user.setPassword(pwd);
+            userMapper.updateByPrimaryKeySelective(user);
+            flag = true;
+        }
+        return flag;
     }
 }
