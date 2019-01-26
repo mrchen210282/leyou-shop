@@ -1,6 +1,7 @@
 package com.leyou.item.controller;
 
 import com.leyou.common.PageResult;
+import com.leyou.item.service.GoodsService;
 import com.leyou.item.service.SpuService;
 import com.leyou.bo.SpuBo;
 import com.leyou.cart.pojo.Spu;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * @author Qin PengCheng
@@ -82,6 +85,14 @@ private Long total;// 总条数
           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
         return ResponseEntity.status(HttpStatus.OK).body(spu);
+    }
 
+    /**
+     * 添加规格
+     */
+    public ResponseEntity<Void> addSpus(Spu spu){
+        spu.setCreateTime(new Date());
+        spuService.addSpus(spu);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
