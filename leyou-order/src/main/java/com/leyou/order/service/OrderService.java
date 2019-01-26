@@ -12,6 +12,7 @@ import com.leyou.order.mapper.OrderStatusMapper;
 import com.leyou.order.pojo.*;
 import com.leyou.utils.IdWorker;
 import com.leyou.utils.PayHelper;
+import net.sf.jsqlparser.expression.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Transactional
-    public Long createOrder(Order order) {
+    public String createOrder(Order order) {
         // 生成orderId
-        long orderId = idWorker.nextId();
+        String orderId = String.valueOf(idWorker.nextId());
         // 获取登录用户
         UserInfo user = LoginInterceptor.getLoginUser();
         // 初始化数据
@@ -80,7 +81,7 @@ public class OrderService {
         return orderId;
     }
 
-    public Order queryById(Long id) {
+    public Order queryById(String id) {
         // 查询订单
         Order order = this.orderMapper.selectByPrimaryKey(id);
 
@@ -113,7 +114,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Boolean updateStatus(Long id, Integer status) {
+    public Boolean updateStatus(String id, Integer status) {
         OrderStatus record = new OrderStatus();
         record.setOrderId(id);
         record.setStatus(status);

@@ -37,8 +37,8 @@ public class OrderController {
     @PostMapping
     @ApiOperation(value = "创建订单接口，返回订单编号", notes = "创建订单")
     @ApiImplicitParam(name = "order", required = true, value = "订单的json对象,包含订单条目和物流信息")
-    public ResponseEntity<Long> createOrder(@RequestBody @Valid Order order) {
-        Long id = this.orderService.createOrder(order);
+    public ResponseEntity<String> createOrder(@RequestBody @Valid Order order) {
+        String id = this.orderService.createOrder(order);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
@@ -51,7 +51,7 @@ public class OrderController {
     @GetMapping("{id}")
     @ApiOperation(value = "根据订单编号查询订单，返回订单对象", notes = "查询订单")
     @ApiImplicitParam(name = "id", required = true, value = "订单的编号")
-    public ResponseEntity<Order> queryOrderById(@PathVariable("id") Long id) {
+    public ResponseEntity<Order> queryOrderById(@PathVariable("id") String id) {
         Order order = this.orderService.queryById(id);
         if (order == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -98,7 +98,7 @@ public class OrderController {
     @PutMapping("{id}/{status}")
     @ApiOperation(value = "更新订单状态", notes = "更新订单状态")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单编号", type = "Long"),
+            @ApiImplicitParam(name = "id", value = "订单编号", type = "String"),
             @ApiImplicitParam(name = "status", value = "订单状态：1未付款，2已付款未发货，3已发货未确认，4已确认未评价，5交易关闭，6交易成功，已评价", type = "Integer"),
     })
 
@@ -107,7 +107,7 @@ public class OrderController {
             @ApiResponse(code = 400, message = "请求参数有误"),
             @ApiResponse(code = 500, message = "查询失败")
     })
-    public ResponseEntity<Boolean> updateStatus(@PathVariable("id") Long id, @PathVariable("status") Integer status) {
+    public ResponseEntity<Boolean> updateStatus(@PathVariable("id") String id, @PathVariable("status") Integer status) {
         Boolean boo = this.orderService.updateStatus(id, status);
         if (boo == null) {
             // 返回400
@@ -125,7 +125,7 @@ public class OrderController {
      */
     @GetMapping("url/{id}")
     @ApiOperation(value = "生成微信扫码支付付款链接", notes = "生成付款链接")
-    @ApiImplicitParam(name = "id", value = "订单编号", type = "Long")
+    @ApiImplicitParam(name = "id", value = "订单编号", type = "String")
     @ApiResponses({
             @ApiResponse(code = 200, message = "根据订单编号生成的微信支付地址"),
             @ApiResponse(code = 404, message = "生成链接失败"),
@@ -148,12 +148,12 @@ public class OrderController {
      */
     @GetMapping("state/{id}")
     @ApiOperation(value = "查询扫码支付付款状态", notes = "查询付款状态")
-    @ApiImplicitParam(name = "id", value = "订单编号", type = "Long")
+    @ApiImplicitParam(name = "id", value = "订单编号", type = "String")
     @ApiResponses({
             @ApiResponse(code = 200, message = "0, 未查询到支付信息 1,支付成功 2,支付失败"),
             @ApiResponse(code = 500, message = "服务器异常"),
     })
-    public ResponseEntity<Integer> queryPayState(@PathVariable("id") Long orderId) {
+    public ResponseEntity<Integer> queryPayState(@PathVariable("id") String orderId) {
         PayState payState = this.payHelper.queryOrder(orderId);
         return ResponseEntity.ok(payState.getValue());
     }

@@ -7,10 +7,16 @@ import com.leyou.order.mapper.OrderDetailMapper;
 import com.leyou.order.mapper.OrderInformationMapper;
 import com.leyou.order.mapper.*;
 import com.leyou.order.pojo.*;
+import com.leyou.utils.IdWorker;
+import com.leyou.utils.MD5Util;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Decoder;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +43,9 @@ public class OrderDetailService {
 
     @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private IdWorker idWorker;
 
     /**
      * 查询我的中的订单信息
@@ -104,6 +113,39 @@ public class OrderDetailService {
     }
 
     public void saveAfterSales(AfterSales afterSales) {
+        if(StringUtils.isNotEmpty(afterSales.getCaseImg())){
+            //正式库图片地址
+            //String path = "/home/statics/qrcode/";
+            //测速地址
+            String path = "D://";
+            String imgName = MD5Util.getMD5Format( afterSales.getOrderId().toString()+ System.currentTimeMillis())+afterSales.getOrderId().toString()+".png";
+            path = path + imgName;
+            BASE64Decoder decoder = new BASE64Decoder();
+            try {
+                // Base64解码
+                String[] base64Str = afterSales.getCaseImg().split(",");
+                if (base64Str.length >= 2) {
+                    byte[] b = decoder.decodeBuffer(base64Str[1]);
+                    for (int i = 0; i < b.length; ++i) {
+                        if (b[i] < 0) {// 调整异常数据
+                            b[i] += 256;
+                        }
+                    }
+                    // 生成jpeg图片
+                    OutputStream out = new FileOutputStream(path);
+                    out.write(b);
+                    out.flush();
+                    out.close();
+                } else {
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            afterSales.setCaseImg(path);
+        }
+        afterSales.setAfterSalesId(idWorker.nextId());
+
         this.afterSalesMapper.insertSelective(afterSales);
     }
 
@@ -197,6 +239,12 @@ public class OrderDetailService {
             }
         }
         return myOrderDetailList;
+    }
+
+    public List<OrderDetail> queryDetail(String orderId){
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrderId(orderId);
+        return orderDetailMapper.select(orderDetail);
     }
 
 }

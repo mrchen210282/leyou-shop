@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MyOrderDetail {
 
-    private Long orderId;// 订单id
+    private String orderId;// 订单id
 
     private String status;
 
@@ -21,11 +21,11 @@ public class MyOrderDetail {
 
     private List<OrderMessage> list;
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

@@ -13,7 +13,7 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long orderId;// 订单id
+    private String orderId;// 订单id
 
     private Long skuId;// 商品id
 
@@ -25,7 +25,7 @@ public class OrderDetail {
 
     private String ownSpec;// 商品规格数据
 
-    private String imageURL;// 图片
+    private String imageUrl;// 图片
 
     public Long getId() {
         return id;
@@ -35,11 +35,11 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -83,11 +83,11 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

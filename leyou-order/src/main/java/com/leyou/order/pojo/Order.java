@@ -9,7 +9,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    private Long orderId;// id
+    private String orderId;// id
     @NotNull
     private Long totalPay;// 总金额
     @NotNull
@@ -42,11 +42,11 @@ public class Order {
     @Transient
     private Integer status;
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

@@ -2,15 +2,15 @@ package com.leyou.order.pojo;
 
 public class OrderInformation {
 
-    private Long orderId;// 订单id
+    private String orderId;// 订单id
 
     private String status; //单
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

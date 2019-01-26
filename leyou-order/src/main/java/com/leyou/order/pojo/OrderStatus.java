@@ -14,7 +14,7 @@ import java.util.Date;
 public class OrderStatus {
 
     @Id
-    private Long orderId;
+    private String orderId;
     /**
      * 初始阶段：1、未付款、未发货；初始化所有数据
      * 付款阶段：2、已付款、未发货；更改付款时间
@@ -37,11 +37,11 @@ public class OrderStatus {
 
     private Date commentTime;// 评价时间
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

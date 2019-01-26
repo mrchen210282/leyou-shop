@@ -8,54 +8,62 @@ import javax.persistence.Table;
 public class AfterSales {
 
     @Id
-    private Integer afterSalesId;
+    private Long afterSalesId;
 
-    private Integer type;
+    //服务类型
+    private String type;
 
-    private Integer orderId;
+    //订单id
+    private String orderId;
 
-    private Integer caseId;
+    //申请原因
+    private String caseContent;
 
+    //退款金额
     private Float refundNum;
 
-    private String describe;
+    //问题描述
+    private String caseDescribe;
 
+    //描述图片
     private String caseImg;
 
+    //联系人
     private String contacts;
 
+    //联系电话
     private String contactsPhone;
 
-    public Integer getAfterSalesId() {
+    public Long getAfterSalesId() {
         return afterSalesId;
     }
 
-    public void setAfterSalesId(Integer afterSalesId) {
+    public void setAfterSalesId(Long afterSalesId) {
         this.afterSalesId = afterSalesId;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Integer getOrderId() {
+    public String getCaseContent() {
+        return caseContent;
+    }
+
+    public void setCaseContent(String caseContent) {
+        this.caseContent = caseContent;
+    }
+
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-    public Integer getCaseId() {
-        return caseId;
-    }
-
-    public void setCaseId(Integer caseId) {
-        this.caseId = caseId;
     }
 
     public Float getRefundNum() {
@@ -66,12 +74,12 @@ public class AfterSales {
         this.refundNum = refundNum;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getCaseDescribe() {
+        return caseDescribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setCaseDescribe(String caseDescribe) {
+        this.caseDescribe = caseDescribe;
     }
 
     public String getCaseImg() {

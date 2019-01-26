@@ -96,7 +96,7 @@ public class PayHelper {
      * @param orderId
      * @return
      */
-    public PayState queryOrder(Long orderId) {
+    public PayState queryOrder(String orderId) {
         Map<String, String> data = new HashMap<>();
         // 订单号
         data.put("out_trade_no", orderId.toString());

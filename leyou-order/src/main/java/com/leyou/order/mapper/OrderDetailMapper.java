@@ -17,7 +17,7 @@ import java.util.Map;
 public interface OrderDetailMapper extends tk.mybatis.mapper.common.Mapper<OrderDetail>, InsertListMapper<OrderDetail> {
 
     @Select("select * from tb_order_detail where order_id = #{orderId}")
-    List<OrderDetail> queryOrderDetail(@Param("orderId") Long orderId);
+    List<OrderDetail> queryOrderDetail(@Param("orderId") String orderId);
 
     List<OrderDetail> queryAfterSales(@Param("status")Integer status, @Param("userId")Long userId);
 

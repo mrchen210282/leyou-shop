@@ -8,13 +8,15 @@
         <result column="title" property="title"/>
         <result column="quantity" property="quantity"/>
         <result column="ownSpec" property="ownSpec" />
+        <result column="imageUrl" property="imageUrl" />
     </resultMap>
     <select id="queryAfterSales" resultMap="afterSales">
         SELECT
         ord.order_id as orderId,
         de.title as title,
         de.quantity as quantity,
-        de.own_spec as ownSpec
+        de.own_spec as ownSpec,
+        de.image_url as imageUrl
         FROM
         tb_order_detail de
         left join tb_order ord
