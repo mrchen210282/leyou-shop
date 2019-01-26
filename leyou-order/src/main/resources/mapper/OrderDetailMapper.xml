@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leyou.order.mapper.OrderDetailMapper">
+    
+    <resultMap id="afterSales" type="com.leyou.order.pojo.OrderDetail">
+        <id column="orderId" property="orderId"/>
+        <result column="title" property="title"/>
+        <result column="quantity" property="quantity"/>
+        <result column="ownSpec" property="ownSpec" />
+    </resultMap>
+    <select id="queryAfterSales" resultMap="afterSales">
+        SELECT
+        ord.order_id as orderId,
+        de.title as title,
+        de.quantity as quantity,
+        de.own_spec as ownSpec
+        FROM
+        tb_order_detail de
+        left join tb_order ord
+        on
+        de.order_id = ord.order_id
+        left join
+        tb_order_status sta
+        on
+        de.order_id = sta.order_id
+        WHERE
+        sta. STATUS = #{status}
+        AND
+        ord.user_id = #{userId}
+    </select>
+
+
+
+</mapper>

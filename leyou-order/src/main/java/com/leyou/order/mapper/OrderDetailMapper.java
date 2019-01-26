@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.special.InsertListMapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: HuYi.Zhang
@@ -17,5 +18,7 @@ public interface OrderDetailMapper extends tk.mybatis.mapper.common.Mapper<Order
 
     @Select("select * from tb_order_detail where order_id = #{orderId}")
     List<OrderDetail> queryOrderDetail(@Param("orderId") Long orderId);
+
+    List<OrderDetail> queryAfterSales(@Param("status")Integer status, @Param("userId")Long userId);
 
 }

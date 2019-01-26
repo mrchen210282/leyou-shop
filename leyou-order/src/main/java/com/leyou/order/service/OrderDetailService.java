@@ -2,12 +2,10 @@ package com.leyou.order.service;
 
 import com.leyou.auth.entiy.UserInfo;
 import com.leyou.order.interceptor.LoginInterceptor;
+import com.leyou.order.mapper.AfterSalesMapper;
 import com.leyou.order.mapper.OrderDetailMapper;
 import com.leyou.order.mapper.OrderInformationMapper;
-import com.leyou.order.pojo.MyOrderDetail;
-import com.leyou.order.pojo.OrderDetail;
-import com.leyou.order.pojo.OrderInformation;
-import com.leyou.order.pojo.OrderMessage;
+import com.leyou.order.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +21,9 @@ public class OrderDetailService {
 
     @Autowired
     private OrderInformationMapper orderInformationMapper;
+
+    @Autowired
+    private AfterSalesMapper afterSalesMapper;
 
     /**
      * 查询我的中的订单信息
@@ -63,7 +64,7 @@ public class OrderDetailService {
                 List<OrderDetail> orderList = orderDetailMapper.queryOrderDetail(orderEntity.getOrderId());
                 BigDecimal total = new BigDecimal(0);
                 List<OrderMessage> orderMessageList = new ArrayList<OrderMessage>();
-                for(int j = 0; j < orderList.size(); j++) {
+                for (int j = 0; j < orderList.size(); j++) {
                     OrderDetail detail = orderList.get(j);
                     OrderMessage orderMessage = new OrderMessage();
                     orderMessage.setSkuId(detail.getSkuId());
@@ -83,6 +84,17 @@ public class OrderDetailService {
 
         }
         return myOrderDetailList;
+    }
 
+    public List<OrderDetail> queryAfterSales() {
+        // 获取登录用户
+        UserInfo user = LoginInterceptor.getLoginUser();
+        Long userId = user.getId();
+        Integer status = 3;
+        return orderDetailMapper.queryAfterSales(status, userId);
+    }
+
+    public void saveAfterSales(AfterSales afterSales) {
+        this.afterSalesMapper.insertSelective(afterSales);
     }
 }
