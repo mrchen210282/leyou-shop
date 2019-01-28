@@ -5,7 +5,7 @@
 
 
     <select id="queryOrder" resultType="com.leyou.order.pojo.OrderInformation">
-        select tt.order_id,tos.`status` from tb_order tt
+        select tt.order_id as orderId,tos.`status` from tb_order tt
         left join tb_order_status tos on tt.order_id = tos.order_id
         WHERE tt.user_id = #{id}
         <if test="status != null and status != ''">

@@ -107,8 +107,8 @@ public class UserController {
      * @return
      */
     @PostMapping("changeNickName")
-    public ResponseEntity<Void> changeNickName(@RequestParam(value = "nickName") String nickName) {
-        userService.changeNickName(nickName);
+    public ResponseEntity<Void> changeNickName(@RequestParam(value = "useName") String useName) {
+        userService.changeNickName(useName);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
