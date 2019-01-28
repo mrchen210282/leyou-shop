@@ -35,6 +35,7 @@ public class OrderDetailService {
 
     @Autowired
     private AfterSalesMapper afterSalesMapper;
+
     @Autowired
     private ReceiveAddressMapper receiveAddressMapper;
 
@@ -248,6 +249,11 @@ public class OrderDetailService {
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrderId(orderId);
         return orderDetailMapper.select(orderDetail);
+    }
+
+    public List<OrderDetail> queryComplete(){
+        UserInfo info = LoginInterceptor.getLoginUser();
+        return orderDetailMapper.queryComplete(info.getId());
     }
 
 }

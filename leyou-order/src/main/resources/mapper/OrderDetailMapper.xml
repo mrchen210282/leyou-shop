@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leyou.order.mapper.OrderDetailMapper">
-    
+
     <resultMap id="afterSales" type="com.leyou.order.pojo.OrderDetail">
         <id column="orderId" property="orderId"/>
         <result column="title" property="title"/>
         <result column="quantity" property="quantity"/>
-        <result column="ownSpec" property="ownSpec" />
-        <result column="imageUrl" property="imageUrl" />
+        <result column="ownSpec" property="ownSpec"/>
+        <result column="imageUrl" property="imageUrl"/>
     </resultMap>
     <select id="queryAfterSales" resultMap="afterSales">
         SELECT
@@ -32,6 +32,26 @@
         ord.user_id = #{userId}
     </select>
 
+    <select id="queryComplete" resultMap="afterSales">
+        SELECT
+	    distinct od.order_id AS orderId,
+	    de.title AS title,
+	    de.quantity AS quantity,
+	    de.own_spec AS ownSpec,
+	    de.image_url AS imageUrl
+        FROM
+	    tb_order od
+        LEFT JOIN
+        tb_order_detail de
+        ON
+        od.order_id = de.order_id
+        where
+        od.user_id = #{userId}
+        AND
+        od.order_id
+        in
+        (select order_id from tb_after_sales)
+    </select>
 
 
 </mapper>

@@ -21,4 +21,6 @@ public interface OrderDetailMapper extends tk.mybatis.mapper.common.Mapper<Order
 
     List<OrderDetail> queryAfterSales(@Param("status")Integer status, @Param("userId")Long userId);
 
+    List<OrderDetail> queryComplete(@Param("userId")Long userId);
+
 }

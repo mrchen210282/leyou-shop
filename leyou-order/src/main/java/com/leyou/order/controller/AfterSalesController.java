@@ -22,9 +22,6 @@ public class AfterSalesController {
     public ResponseEntity<List<OrderDetail>> queryAfterSales() {
 
         List<OrderDetail> list  = orderDetailService.queryAfterSales();
-        list.stream().forEach(u->{
-            System.out.println(u.getOrderId());
-        });
         return ResponseEntity.ok().body(list);
     }
 
@@ -37,6 +34,11 @@ public class AfterSalesController {
     @GetMapping("queryDetail/{orderId}")
     public ResponseEntity<List<OrderDetail>> queryDetail(@PathVariable String orderId) {
         return ResponseEntity.ok().body(orderDetailService.queryDetail(orderId));
+    }
+
+    @PostMapping("queryComplete")
+    public ResponseEntity<List<OrderDetail>> queryComplete(){
+        return ResponseEntity.ok().body(orderDetailService.queryComplete());
     }
 
 

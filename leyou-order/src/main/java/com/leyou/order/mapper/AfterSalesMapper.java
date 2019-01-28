@@ -6,4 +6,6 @@ import tk.mybatis.mapper.common.special.InsertListMapper;
 
 @Mapper
 public interface AfterSalesMapper extends tk.mybatis.mapper.common.Mapper<AfterSales>, InsertListMapper<AfterSales> {
+
+
 }

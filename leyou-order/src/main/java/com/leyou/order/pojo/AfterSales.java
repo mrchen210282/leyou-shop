@@ -34,6 +34,9 @@ public class AfterSales {
     //联系电话
     private String contactsPhone;
 
+    //订单状态
+    private String status;
+
     public Long getAfterSalesId() {
         return afterSalesId;
     }
@@ -50,20 +53,20 @@ public class AfterSales {
         this.type = type;
     }
 
-    public String getCaseContent() {
-        return caseContent;
-    }
-
-    public void setCaseContent(String caseContent) {
-        this.caseContent = caseContent;
-    }
-
     public String getOrderId() {
         return orderId;
     }
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getCaseContent() {
+        return caseContent;
+    }
+
+    public void setCaseContent(String caseContent) {
+        this.caseContent = caseContent;
     }
 
     public Float getRefundNum() {
@@ -104,5 +107,13 @@ public class AfterSales {
 
     public void setContactsPhone(String contactsPhone) {
         this.contactsPhone = contactsPhone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
