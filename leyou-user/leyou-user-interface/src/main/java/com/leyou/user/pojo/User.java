@@ -31,7 +31,6 @@ public class User {
     @JsonIgnore
     private String salt;// 密码的盐值
 
-    private String nickName;
 
     public Long getId() {
         return id;
@@ -79,14 +78,6 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
     }
 
     public User() {

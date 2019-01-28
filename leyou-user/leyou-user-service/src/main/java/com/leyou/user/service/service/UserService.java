@@ -148,11 +148,11 @@ public class UserService {
     /**
      * 修改呢称
      */
-    public void changeNickName(String nickName) {
+    public void changeNickName(String userName) {
         UserInfo userInfo = LoginInterceptor.getUserInfo();
         User user = new User();
         user.setId(userInfo.getId());
-        user.setNickName(nickName);
+        user.setUsername(userName);
         userMapper.updateByPrimaryKeySelective(user);
 
     }
