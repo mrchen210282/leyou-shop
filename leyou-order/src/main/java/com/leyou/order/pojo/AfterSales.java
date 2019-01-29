@@ -3,6 +3,7 @@ package com.leyou.order.pojo;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "tb_after_sales")
 public class AfterSales {
@@ -27,6 +28,9 @@ public class AfterSales {
 
     //描述图片
     private String caseImg;
+
+    @Transient
+    private String[] images;
 
     //联系人
     private String contacts;
@@ -115,5 +119,13 @@ public class AfterSales {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String[] getImages() {
+        return images;
+    }
+
+    public void setImages(String[] images) {
+        this.images = images;
     }
 }

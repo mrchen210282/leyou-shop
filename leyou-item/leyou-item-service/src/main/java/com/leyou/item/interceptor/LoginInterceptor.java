@@ -32,7 +32,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             //判断令牌是否是空
             if (StringUtils.isBlank(token)) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                return false;
+                return true;
             }
             //令牌不为空，解析得到用户的信息
             UserInfo userInfo = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());

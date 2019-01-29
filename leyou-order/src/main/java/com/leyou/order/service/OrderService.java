@@ -49,32 +49,33 @@ public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Transactional
-    public String createOrder(Order order) {
+    public String createOrder(List<OrderDetail> order) {
         // 生成orderId
         String orderId = String.valueOf(idWorker.nextId());
         // 获取登录用户
         UserInfo user = LoginInterceptor.getLoginUser();
+        Order order1 = new Order();
         // 初始化数据
-        order.setBuyerNick(user.getUsername());
-        order.setBuyerRate(false);
-        order.setCreateTime(new Date());
-        order.setOrderId(orderId);
-        order.setUserId(user.getId());
+        order1.setBuyerNick(user.getUsername());
+        order1.setBuyerRate(false);
+        order1.setCreateTime(new Date());
+        order1.setOrderId(orderId);
+        order1.setUserId(user.getId());
         // 保存数据
-        this.orderMapper.insertSelective(order);
+        this.orderMapper.insertSelective(order1);
 
         // 保存订单状态
         OrderStatus orderStatus = new OrderStatus();
         orderStatus.setOrderId(orderId);
-        orderStatus.setCreateTime(order.getCreateTime());
+        orderStatus.setCreateTime(new Date());
         orderStatus.setStatus(1);// 初始状态为未付款
 
         this.statusMapper.insertSelective(orderStatus);
 
         // 订单详情中添加orderId
-        order.getOrderDetails().forEach(od -> od.setOrderId(orderId));
+        order.forEach(od -> od.setOrderId(orderId));
         // 保存订单详情,使用批量插入功能
-        this.detailMapper.insertList(order.getOrderDetails());
+        this.detailMapper.insertList(order);
 
         logger.debug("生成订单，订单编号：{}，用户id：{}", orderId, user.getId());
 

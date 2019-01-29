@@ -2,14 +2,10 @@ package com.leyou.order.service;
 
 import com.leyou.auth.entiy.UserInfo;
 import com.leyou.order.interceptor.LoginInterceptor;
-import com.leyou.order.mapper.AfterSalesMapper;
-import com.leyou.order.mapper.OrderDetailMapper;
-import com.leyou.order.mapper.OrderInformationMapper;
 import com.leyou.order.mapper.*;
 import com.leyou.order.pojo.*;
 import com.leyou.utils.IdWorker;
 import com.leyou.utils.MD5Util;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
@@ -114,36 +110,42 @@ public class OrderDetailService {
     }
 
     public void saveAfterSales(AfterSales afterSales) {
-        if(StringUtils.isNotEmpty(afterSales.getCaseImg())){
+        if (afterSales.getImages().length > 0) {
             //正式库图片地址
             //String path = "/home/statics/qrcode/";
             //测速地址
             String path = "D://";
-            String imgName = MD5Util.getMD5Format( afterSales.getOrderId().toString()+ System.currentTimeMillis())+afterSales.getOrderId().toString()+".png";
-            path = path + imgName;
             BASE64Decoder decoder = new BASE64Decoder();
-            try {
-                // Base64解码
-                String[] base64Str = afterSales.getCaseImg().split(",");
-                if (base64Str.length >= 2) {
-                    byte[] b = decoder.decodeBuffer(base64Str[1]);
-                    for (int i = 0; i < b.length; ++i) {
-                        if (b[i] < 0) {// 调整异常数据
-                            b[i] += 256;
-                        }
-                    }
-                    // 生成jpeg图片
-                    OutputStream out = new FileOutputStream(path);
-                    out.write(b);
-                    out.flush();
-                    out.close();
-                } else {
 
+            String pathes = "";
+            for(String img : afterSales.getImages()){
+                String imgName = MD5Util.getMD5Format(afterSales.getOrderId().toString() + System.currentTimeMillis()) + afterSales.getOrderId().toString() + ".png";
+                path = path + imgName;
+                pathes += path+",";
+                try {
+                    // Base64解码
+                    String[] base64Str = img.split(",");
+                    if (base64Str.length >= 2) {
+                        byte[] b = decoder.decodeBuffer(base64Str[1]);
+                        for (int i = 0; i < b.length; ++i) {
+                            if (b[i] < 0) {// 调整异常数据
+                                b[i] += 256;
+                            }
+                        }
+                        // 生成jpeg图片
+                        OutputStream out = new FileOutputStream(path);
+                        out.write(b);
+                        out.flush();
+                        out.close();
+                    } else {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            afterSales.setCaseImg(path);
+
+            afterSales.setCaseImg(pathes);
         }
         afterSales.setAfterSalesId(idWorker.nextId());
 
@@ -157,9 +159,10 @@ public class OrderDetailService {
 
     /**
      * 添加收货地址
+     *
      * @param addressId
      */
-    public void addOrderDetail(Long addressId,Long orderId) {
+    public void addOrderDetail(Long addressId, Long orderId) {
 
         ReceiveAddress receiveAddress = new ReceiveAddress();
 
@@ -175,15 +178,15 @@ public class OrderDetailService {
         PayOrderDetail payOrderDetail = new PayOrderDetail();
         // 获取登录用户
         UserInfo user = LoginInterceptor.getLoginUser();
-        List<MyOrderDetail> myOrderList = this.queryOrder(status,user.getId(),orderId);
-        if(null != myOrderList && myOrderList.size() > 0) {
+        List<MyOrderDetail> myOrderList = this.queryOrder(status, user.getId(), orderId);
+        if (null != myOrderList && myOrderList.size() > 0) {
             MyOrderDetail myOrderDetail = myOrderList.get(0);
             payOrderDetail.setMyOrderDetail(myOrderDetail);
         }
         Example example = new Example(ReceiveAddress.class);
-        example.createCriteria().andEqualTo("orderId",orderId);
+        example.createCriteria().andEqualTo("orderId", orderId);
         List<ReceiveAddress> receiveAddressList = receiveAddressMapper.selectByExample(example);
-        if(null != receiveAddressList && receiveAddressList.size() > 0) {
+        if (null != receiveAddressList && receiveAddressList.size() > 0) {
             ReceiveAddress receiveAddress = receiveAddressList.get(0);
             Address address = addressMapper.selectByPrimaryKey(receiveAddress.getAddressId());
             payOrderDetail.setName(address.getName());
@@ -245,13 +248,13 @@ public class OrderDetailService {
         return myOrderDetailList;
     }
 
-    public List<OrderDetail> queryDetail(String orderId){
+    public List<OrderDetail> queryDetail(String orderId) {
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrderId(orderId);
         return orderDetailMapper.select(orderDetail);
     }
 
-    public List<OrderDetail> queryComplete(){
+    public List<OrderDetail> queryComplete() {
         UserInfo info = LoginInterceptor.getLoginUser();
         return orderDetailMapper.queryComplete(info.getId());
     }

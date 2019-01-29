@@ -2,6 +2,7 @@ package com.leyou.order.controller;
 
 import com.leyou.common.PageResult;
 import com.leyou.order.pojo.Order;
+import com.leyou.order.pojo.OrderDetail;
 import com.leyou.order.service.OrderService;
 import com.leyou.utils.PayHelper;
 import com.leyou.utils.PayState;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author: HuYi.Zhang
@@ -34,10 +36,10 @@ public class OrderController {
      * @param order 订单对象
      * @return 订单编号
      */
-    @PostMapping
+    @PostMapping("createOrder")
     @ApiOperation(value = "创建订单接口，返回订单编号", notes = "创建订单")
     @ApiImplicitParam(name = "order", required = true, value = "订单的json对象,包含订单条目和物流信息")
-    public ResponseEntity<String> createOrder(@RequestBody @Valid Order order) {
+    public ResponseEntity<String> createOrder(@RequestBody @Valid List<OrderDetail> order) {
         String id = this.orderService.createOrder(order);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
