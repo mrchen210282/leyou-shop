@@ -35,24 +35,26 @@ public class GoodsController {
 
     /**
      * 添加商品
+     *
      * @param goods
      * @return
      */
     @PostMapping
-    public ResponseEntity<Void> addGoods(@RequestBody GoodsBo goods){
+    public ResponseEntity<Void> addGoods(@RequestBody GoodsBo goods) {
         this.goodsService.addGoods(goods);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**
      * 根据id查询商品细节
+     *
      * @param id
      * @return
      */
     @GetMapping("spu/detail/{id}")
-    public ResponseEntity<SpuDetail> querySpuDetailById(@PathVariable("id")Long id){
+    public ResponseEntity<SpuDetail> querySpuDetailById(@PathVariable("id") Long id) {
         SpuDetail spuDetail = goodsService.querySpuDetailById(id);
-        if (spuDetail==null){
+        if (spuDetail == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(spuDetail);
@@ -60,67 +62,72 @@ public class GoodsController {
 
     /**
      * 删除商品
+     *
      * @param id
      * @return
      */
     @DeleteMapping()
-    public ResponseEntity<Void> deleteSpuById(@RequestParam("id") Long id){
-                this.goodsService.deleteSpuById(id);
-                return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> deleteSpuById(@RequestParam("id") Long id) {
+        this.goodsService.deleteSpuById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     /**
      * 修改商品
+     *
      * @param goods
      * @return
      */
     @PutMapping
-    public ResponseEntity<Void> updateGoods(@RequestBody GoodsBo goods){
+    public ResponseEntity<Void> updateGoods(@RequestBody GoodsBo goods) {
         this.goodsService.updateGoods(goods);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     /**
      * 更改商品的上下架状态
+     *
      * @param id
      * @param selable
      * @return
      */
     @PutMapping("spu")
-    public ResponseEntity<Void> updateSealStand(@RequestParam("id")Long id,@RequestParam("selable")Boolean selable){
-        this.goodsService.updateSealStand(id,selable);
+    public ResponseEntity<Void> updateSealStand(@RequestParam("id") Long id, @RequestParam("selable") Boolean selable) {
+        this.goodsService.updateSealStand(id, selable);
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 
     /**
      * 查询商品列表
+     *
      * @param id
      * @return
      */
     @GetMapping("/sku/list")
-    public ResponseEntity<List<Sku>> querySkuList(@RequestParam("id")Long id){
-     List<Sku> skus =   this.goodsService.querySkuList(id);
-     return ResponseEntity.status(HttpStatus.OK).body(skus);
+    public ResponseEntity<List<Sku>> querySkuList(@RequestParam("id") Long id) {
+        List<Sku> skus = this.goodsService.querySkuList(id);
+        return ResponseEntity.status(HttpStatus.OK).body(skus);
     }
 
 //***********************************GYG***********************************//
+
     /***
      * 查询商品详情和商品图片
      * @param id
      * @return
      */
     @GetMapping("/sku/info")
-    public ResponseEntity<Map<String,Object>> querySkuById(@RequestParam("id") Long id){
+    public ResponseEntity<Map<String, Object>> querySkuById(@RequestParam("id") Long id) {
         Sku sku = this.goodsService.querySkuBySkuId(id);
         //获取图片
         List<SkuImg> imgs = this.goodsService.skuImgs(id);
-        if (sku == null || imgs == null || imgs.size()<=0){
+        if (sku == null || imgs == null || imgs.size() <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("sku",sku);
-        map.put("imgs",imgs);
+        Map<String, Object> map = new HashMap<>();
+        map.put("sku", sku);
+        map.put("imgs", imgs);
         return ResponseEntity.ok(map);
     }
 
@@ -128,10 +135,10 @@ public class GoodsController {
      * 根据cateid查询商品列表
      */
     @GetMapping("/carts/list")
-    public ResponseEntity<List<Sku>> cartsList(@RequestParam("cateId")Long id){
-        List<Spu> spus =   this.goodsService.spusByCateId(id);
+    public ResponseEntity<List<Sku>> cartsList(@RequestParam("cateId") Long id) {
+        List<Spu> spus = this.goodsService.spusByCateId(id);
         List<Sku> skus = new LinkedList<Sku>();
-        for (Spu su : spus){
+        for (Spu su : spus) {
             List<Sku> sku = goodsService.querySkusBySpuId(su.getId());
             skus.add(sku.get(0));
         }
@@ -142,8 +149,8 @@ public class GoodsController {
      * 根据spuid查询商品列表
      */
     @GetMapping("/spus/list")
-    public ResponseEntity<List<Sku>> spusList(@RequestParam("spuid")Long spuid){
-        List<Sku> skus =   this.goodsService.skuBySpuId(spuid);
+    public ResponseEntity<List<Sku>> spusList(@RequestParam("spuid") Long spuid) {
+        List<Sku> skus = this.goodsService.skuBySpuId(spuid);
         return ResponseEntity.status(HttpStatus.OK).body(skus);
     }
 
@@ -152,11 +159,11 @@ public class GoodsController {
      * 添加商品图片
      */
     @GetMapping("/sku/addimg")
-    public ResponseEntity<Void> addImages(@RequestBody SkuImg img){
+    public ResponseEntity<Void> addImages(@RequestBody SkuImg img) {
         String imgPath = "http://www.bitflash.vip/banner/";
         String path = "/home/statics/banner/";
-        String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
-        path = path+imgName;
+        String imgName = RandomStringUtils.randomAlphanumeric(10) + ".png";
+        path = path + imgName;
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             // Base64解码
@@ -181,7 +188,7 @@ public class GoodsController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        img.setImg(imgPath+imgName);
+        img.setImg(imgPath + imgName);
         goodsService.addImgs(img);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -190,7 +197,7 @@ public class GoodsController {
      * 删除商品图片
      */
     @GetMapping("/sku/delimg")
-    public ResponseEntity<Void> delImag(@RequestBody SkuImg img){
+    public ResponseEntity<Void> delImag(@RequestBody SkuImg img) {
         goodsService.delImg(img);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -199,9 +206,9 @@ public class GoodsController {
      * 删除该商品下的所有图片
      */
     @GetMapping("sku/delImgs")
-    public ResponseEntity<Void> delImgs(@RequestParam("skuId") Long skuId,@RequestParam("style") Integer style){
-        goodsService.delImgs(skuId,style);
-        return  ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Void> delImgs(@RequestParam("skuId") Long skuId, @RequestParam("style") Integer style) {
+        goodsService.delImgs(skuId, style);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @GetMapping("sku/{id}")
