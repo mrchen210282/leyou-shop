@@ -30,6 +30,10 @@
         sta. STATUS = #{status}
         AND
         ord.user_id = #{userId}
+        AND
+        de.order_id
+        NOT IN
+        (select order_id from tb_after_sales)
     </select>
 
     <select id="queryComplete" resultMap="afterSales">

@@ -9,18 +9,16 @@ import com.leyou.order.mapper.OrderDetailMapper;
 import com.leyou.order.mapper.OrderInformationMapper;
 import com.leyou.order.mapper.OrderMapper;
 import com.leyou.order.mapper.OrderStatusMapper;
-import com.leyou.order.pojo.*;
+import com.leyou.order.pojo.Order;
+import com.leyou.order.pojo.OrderDetail;
+import com.leyou.order.pojo.OrderStatus;
 import com.leyou.utils.IdWorker;
-import com.leyou.utils.PayHelper;
-import net.sf.jsqlparser.expression.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,20 +47,19 @@ public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Transactional
-    public String createOrder(List<OrderDetail> order) {
+    public String createOrder(Order order) {
         // 生成orderId
         String orderId = String.valueOf(idWorker.nextId());
         // 获取登录用户
         UserInfo user = LoginInterceptor.getLoginUser();
-        Order order1 = new Order();
         // 初始化数据
-        order1.setBuyerNick(user.getUsername());
-        order1.setBuyerRate(false);
-        order1.setCreateTime(new Date());
-        order1.setOrderId(orderId);
-        order1.setUserId(user.getId());
+        order.setBuyerNick(user.getUsername());
+        order.setBuyerRate(false);
+        order.setCreateTime(new Date());
+        order.setOrderId(orderId);
+        order.setUserId(user.getId());
         // 保存数据
-        this.orderMapper.insertSelective(order1);
+        this.orderMapper.insertSelective(order);
 
         // 保存订单状态
         OrderStatus orderStatus = new OrderStatus();
@@ -73,13 +70,13 @@ public class OrderService {
         this.statusMapper.insertSelective(orderStatus);
 
         // 订单详情中添加orderId
-        order.forEach(od -> od.setOrderId(orderId));
+        order.getOrderDetails().forEach(od -> od.setOrderId(orderId));
         // 保存订单详情,使用批量插入功能
-        this.detailMapper.insertList(order);
+        this.detailMapper.insertList(order.getOrderDetails());
 
         logger.debug("生成订单，订单编号：{}，用户id：{}", orderId, user.getId());
 
-        return orderId;
+        return orderId+".";
     }
 
     public Order queryById(String id) {
