@@ -45,7 +45,7 @@ public class FavoriteController {
     @PostMapping("createFavorite")
     public ResponseEntity<Void> createFavorite(@RequestParam(value = "itemId") Long itemId) {
         favoriteService.createFavorite(itemId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**
@@ -55,6 +55,6 @@ public class FavoriteController {
     @PostMapping("delFavorite")
     public ResponseEntity<Void> delFavorite(@RequestParam(value = "id") Long id) {
         favoriteService.delFavorite(id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
