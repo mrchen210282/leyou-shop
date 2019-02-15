@@ -1,5 +1,6 @@
 package com.leyou.user.service.controller;
 
+import com.leyou.user.pojo.BackUser;
 import com.leyou.user.pojo.User;
 import com.leyou.user.service.service.AddressService;
 import com.leyou.user.service.service.UserService;
@@ -90,6 +91,18 @@ public class UserController {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
       return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @GetMapping("queryBack")
+    public ResponseEntity<BackUser> queryBack(
+            @RequestParam(value = "username",required = true)String username,
+            @RequestParam(value = "password",required = true)String password
+    ){
+        BackUser user = this.userService.queryBackUserByIdAndPassword(username,password);
+        if (user==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     /**

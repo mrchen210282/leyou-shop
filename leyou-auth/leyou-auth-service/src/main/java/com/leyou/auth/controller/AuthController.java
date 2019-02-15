@@ -43,10 +43,11 @@ public class AuthController {
     public ResponseEntity<Map<String,Object>> authorization(@RequestBody Map<String,Object> map,
             HttpServletRequest request,
             HttpServletResponse response
-            ){
+            ) throws Exception{
         String username = map.get("username").toString();
         String password = map.get("password").toString();
-        String token = this.authService.getToken(username,password);
+        String sign = map.get("sign").toString();
+        String token = this.authService.getToken(username,password,sign);
         if (StringUtils.isBlank(token)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
