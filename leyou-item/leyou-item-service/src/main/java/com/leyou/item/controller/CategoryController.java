@@ -6,11 +6,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.leyou.cart.pojo.Category;
 import com.leyou.item.service.CategoryService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Decoder;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,6 +70,37 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<Void> addCategory(Category category) {
         category.setId(null);
+        if(category.getImage() != null){
+            String imgPath = "http://www.bitflash.vip/banner/";
+            String path = "/home/statics/banner/";
+            String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
+            path = path+imgName;
+            BASE64Decoder decoder = new BASE64Decoder();
+            try {
+                // Base64解码
+                String[] base64Str = category.getImage().split(",");
+                if (base64Str.length >= 2) {
+                    byte[] b = decoder.decodeBuffer(base64Str[1]);
+                    for (int i = 0; i < b.length; ++i) {
+                        // 调整异常数据
+                        if (b[i] < 0) {
+                            b[i] += 256;
+                        }
+                    }
+                    // 生成jpeg图片
+                    OutputStream out = new FileOutputStream(path);
+                    out.write(b);
+                    out.flush();
+                    out.close();
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            category.setImage(imgPath+imgName);
+        }
         int result = categoryService.addCateGory(category);
         if (result != 1) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -161,18 +196,18 @@ public class CategoryController {
         //获取1级分类
         List<Category> sec1List = categoryService.queryCategoryByPid(pid);
         //获取2级分类
-        List<Category> secList = new LinkedList<>();
-        for (Category cate2 : sec1List){
-            List<Category> secs = categoryService.queryCategoryByPid(cate2.getId());
-            for (Category c2 : secs){
-                secList.add(c2);
-            }
-        }
+//        List<Category> secList = new LinkedList<>();
+//        for (Category cate2 : sec1List){
+//            List<Category> secs = categoryService.queryCategoryByPid(cate2.getId());
+//            for (Category c2 : secs){
+//                secList.add(c2);
+//            }
+//        }
 
         String str = "[";
-        for (Category list2 : secList){
+        for (Category list2 : sec1List){
             str = str + "{\"name\":\""+list2.getName()+"\",\"children\":[";
-            //获取三级分类
+            //获取二级分类
             List<Category> thrList = categoryService.queryCategoryByPid(list2.getId());
             for (Category list3 : thrList){
                 str = str + "{\"id\":"+list3.getId()+",\"name\":\""+list3.getName()+"\",\"src\":\"http://qiniu.verydog.cn//show.liluo.cc/img_0505.png\"},";
@@ -186,4 +221,6 @@ public class CategoryController {
         JSONArray jsonArray = JSON.parseArray(str);
         return ResponseEntity.status(HttpStatus.OK).body(jsonArray);
     }
+
+
 }

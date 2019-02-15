@@ -24,7 +24,11 @@ public class Category implements Serializable{
     @Column(name = "is_parent")
     private Boolean isParent;
 
+    @Column(name = "sort")
     private Integer sort;
+
+    @Column(name = "image")
+    private String image;
 
     public Long getId() {
         return id;
@@ -66,6 +70,14 @@ public class Category implements Serializable{
         this.sort = sort;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
@@ -74,6 +86,7 @@ public class Category implements Serializable{
                 ", parentId=" + parentId +
                 ", isParent=" + isParent +
                 ", sort=" + sort +
+                ", image=" + image +
                 '}';
     }
 }
