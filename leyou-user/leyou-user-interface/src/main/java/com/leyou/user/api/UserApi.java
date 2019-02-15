@@ -1,5 +1,6 @@
 package com.leyou.user.api;
 
+import com.leyou.user.pojo.BackUser;
 import com.leyou.user.pojo.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +26,9 @@ public interface UserApi {
             @RequestParam(value = "username",required = true)String username,
             @RequestParam(value = "password",required = true)String password
     );
+
+    @GetMapping("queryBack")
+    public ResponseEntity<BackUser> queryBackUser( @RequestParam(value = "username") String username,
+                                                   @RequestParam(value = "password") String password);
 
 }
